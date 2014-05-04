@@ -1,5 +1,5 @@
 package ru.mipt.cs.easypiano.sound;
-
+//SASHA
 /**
  * Created by 1 on 27.04.2014.
  */
@@ -43,6 +43,20 @@ public class MidiPlayer {
             channels[channel].noteOff(note);
         }
     }
+    public void playSound(int channel, int[][] notes){
+        for (int[] note : notes) {
+            if (note[1] != -1) {
+                playSound(0, note[0], note[2], note[1]);
+            } else {
+                try {
+                    Thread.sleep(note[0]);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MidiPlayer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
 }
 
 

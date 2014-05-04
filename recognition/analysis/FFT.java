@@ -1,5 +1,5 @@
 package ru.mipt.cs.easypiano.recognition.analysis;
-
+//SASHA
 import ru.mipt.cs.easypiano.graphics.visualisation.Visualizer;
 import ru.mipt.cs.easypiano.test.sasha.SashaMain;
 
@@ -9,8 +9,6 @@ import java.util.Vector;
  * Created by 1 on 25.04.2014.
  */
 public class FFT {
-    private long sampleRate;
-    private Vector v;
     public static void complexToComplex(int sign, int n,
                                         double[] ar, double[] ai) {
         double scale = Math.sqrt(1.0d/n);
@@ -55,14 +53,14 @@ public class FFT {
     }
     public static double[] RealToReal(double[] signal, int from) {
         int n = Visualizer.N;
-        if ((n+from)> SashaMain.SIZE) return null;
+        if ((n+from)>signal.length) return null;
         double[] backup = new double[n];
         double[] zeros = new double[n];
         for (int i = 0; i < n; i++) {
             backup[i] = signal[i+from];
             zeros[i] = 0;
         }
-        FFT.complexToComplex(-1,n,backup,zeros);//-1, 1, 10 as first parameter. which one to choose?
+        FFT.complexToComplex(-1,n,backup,zeros);//-1, 1, 10 as first parameter.
         for (int i=0; i<n; i++){
             backup[i]=Math.sqrt(backup[i]*backup[i]+zeros[i]*zeros[i]);
         }

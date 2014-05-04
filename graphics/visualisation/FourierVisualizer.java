@@ -1,5 +1,5 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
-
+//SASHA
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -16,11 +16,12 @@ import javax.swing.*;
  * Created by 1 on 26.04.2014.
  */
 public class FourierVisualizer implements Visualizer {
+    private double minFrequency;
     public void visualize(double[] array,long sampleRate){//amplitude, not phase
         XYSeries seriesmag = new XYSeries("Spectrum magnitude");
-        double minfrequency=sampleRate/N;
+        minFrequency=sampleRate/N;
         for (int j=0; j<N/2;j++){
-            seriesmag.add(minfrequency*(double)j, array[j]);
+            seriesmag.add(minFrequency*(double)j, array[j]);
         }
         XYDataset xyDataset = new XYSeriesCollection(seriesmag);
         JFreeChart chart = ChartFactory.createXYLineChart("y=signal spectrum", "frequency,Hz", "magnitude",
@@ -35,7 +36,7 @@ public class FourierVisualizer implements Visualizer {
         for (int i=0; i<N/2; i++){
             if (array[i]>max) {max=array[i];maxnum=i;}
         }
-        System.out.println("Min frequency is "+minfrequency+" Max is on frequency "+(maxnum*minfrequency)+"+-"+minfrequency/2+" Max amplitude is "+max);
-        System.out.println("note number is "+ Notes.getNoteNumber(maxnum * minfrequency));
+        System.out.println("Min frequency is "+minFrequency+" Max is on frequency "+(maxnum*minFrequency)+"+-"+minFrequency/2+" Max amplitude is "+max);
+        System.out.println("note number is "+ Notes.getNoteNumber(maxnum * minFrequency));
     }
 }

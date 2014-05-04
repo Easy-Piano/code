@@ -1,5 +1,5 @@
 package ru.mipt.cs.easypiano.test.sasha;
-
+//SASHA
 import ru.mipt.cs.easypiano.graphics.visualisation.FourierVisualizer;
 import ru.mipt.cs.easypiano.graphics.visualisation.SignalVisualizer;
 import ru.mipt.cs.easypiano.graphics.visualisation.Visualizer;
@@ -12,6 +12,9 @@ import java.io.File;
  * Created by 1 on 03.05.2014.
  */
 public class SpectrumTest implements Test{
+    /*
+       draws amplitude(time) graph for every channel, then draws spectrum of one frame for the first channel
+     */
     public static void main(String[] args){
         String s=resoursePath;
         s+="upr_02.wav";

@@ -1,5 +1,5 @@
 package ru.mipt.cs.easypiano.recognition.aggregation;
-
+//SASHA
 
 import ru.mipt.cs.easypiano.recognition.aggregation.wavhelp.WavFile;
 
@@ -14,6 +14,7 @@ public class WavWrapper {
     private String path;
     private int numChannels;
     private long sampleRate;//Hz
+    private long time;
     private Vector arrays;
     private WavFile wavFile;
     public WavWrapper(String s){
@@ -25,6 +26,7 @@ public class WavWrapper {
             sampleRate = wavFile.getSampleRate();
             getArrays();
             wavFile.close();
+            setTime((double) (sampleRate/1000d));
         }
         catch (Exception e)
         {
@@ -66,8 +68,13 @@ public class WavWrapper {
             System.err.println(e);
         }
     }
+    private void setTime(double slotPerMilisec){//sets time in miliseconds
+        time = (long)(((double) ((Vector) arrays.get(0)).size())/slotPerMilisec);
+    }
     public long getSampleRate(){
         return sampleRate;
     }
     public int getNumChannels() {return numChannels;}
+    public long getTime(){return time;}
+    public long getSize(){return ((Vector) arrays.get(0)).size();}
 }
