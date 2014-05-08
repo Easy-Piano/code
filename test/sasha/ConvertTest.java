@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.test.sasha;
+package test.sasha;
 //SASHA
 
 import ru.mipt.cs.easypiano.recognition.analysis.MonoRecognizer;
@@ -6,7 +6,7 @@ import ru.mipt.cs.easypiano.recognition.analysis.MonoRecognizer;
 /**
  * Created by 1 on 03.05.2014.
  */
-public class ConvertTest implements Test {
+public class ConvertTest implements ru.mipt.cs.easypiano.test.sasha.Test {
     /*
         takes wav file and tries to recognize it, then plays what it got in MIDI format.
      */
