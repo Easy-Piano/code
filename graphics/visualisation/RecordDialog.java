@@ -1,7 +1,7 @@
-package ru.mipt.cs.easypiano.graphics.visualisation;
+package graphics.visualisation;
 //SASHA
-import ru.mipt.cs.easypiano.sound.Recording;
-import ru.mipt.cs.easypiano.sound.WavSound;
+import sound.Recording;
+import sound.WavSound;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

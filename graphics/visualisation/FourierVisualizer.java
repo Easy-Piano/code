@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.graphics.visualisation;
+package graphics.visualisation;
 //SASHA
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -7,8 +7,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import ru.mipt.cs.easypiano.graphics.visualisation.Visualizer;
-import ru.mipt.cs.easypiano.sound.Notes;
+import graphics.visualisation.Visualizer;
+import sound.Notes;
 
 import javax.swing.*;
 

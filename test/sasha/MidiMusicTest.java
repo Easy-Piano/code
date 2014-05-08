@@ -1,7 +1,7 @@
-package ru.mipt.cs.easypiano.test.sasha;
+package test.sasha;
 //SASHA
 
-import ru.mipt.cs.easypiano.sound.MidiPlayer;
+import sound.MidiPlayer;
 
 import javax.sound.midi.*;
 import java.io.File;

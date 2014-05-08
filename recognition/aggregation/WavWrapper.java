@@ -1,7 +1,7 @@
-package ru.mipt.cs.easypiano.recognition.aggregation;
+package recognition.aggregation;
 //SASHA
 
-import ru.mipt.cs.easypiano.recognition.aggregation.wavhelp.WavFile;
+import recognition.aggregation.wavhelp.WavFile;
 
 import java.io.File;
 import java.util.Vector;

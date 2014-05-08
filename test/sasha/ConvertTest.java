@@ -1,7 +1,7 @@
 package test.sasha;
 //SASHA
 
-import ru.mipt.cs.easypiano.recognition.analysis.MonoRecognizer;
+import recognition.analysis.MonoRecognizer;
 
 /**
  * Created by 1 on 03.05.2014.

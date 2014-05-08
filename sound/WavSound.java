@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.sound;
+package sound;
 //SASHA
 import java.io.File;
 import java.io.IOException;

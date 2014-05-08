@@ -1,12 +1,10 @@
-package ru.mipt.cs.easypiano.test.sasha;
+package test.sasha;
 //SASHA
-import ru.mipt.cs.easypiano.graphics.visualisation.FourierVisualizer;
-import ru.mipt.cs.easypiano.graphics.visualisation.SignalVisualizer;
-import ru.mipt.cs.easypiano.graphics.visualisation.Visualizer;
-import ru.mipt.cs.easypiano.recognition.aggregation.WavWrapper;
-import ru.mipt.cs.easypiano.recognition.analysis.FFT;
-
-import java.io.File;
+import graphics.visualisation.FourierVisualizer;
+import graphics.visualisation.SignalVisualizer;
+import graphics.visualisation.Visualizer;
+import recognition.aggregation.WavWrapper;
+import recognition.analysis.FFT;
 
 /**
  * Created by 1 on 03.05.2014.

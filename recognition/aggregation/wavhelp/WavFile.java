@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.recognition.aggregation.wavhelp;
+package recognition.aggregation.wavhelp;
 // Wav file IO class
 // A.Greensted
 // http://www.labbookpages.co.uk

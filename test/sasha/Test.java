@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.test.sasha;
+package test.sasha;
 //SASHA
 /**
  * Created by 1 on 03.05.2014.

@@ -1,6 +1,6 @@
-package ru.mipt.cs.easypiano.test.sasha;
+package test.sasha;
 //SASHA
-import ru.mipt.cs.easypiano.sound.PlaySoundThread;
+import sound.PlaySoundThread;
 
 /**
  * Created by 1 on 04.05.2014.

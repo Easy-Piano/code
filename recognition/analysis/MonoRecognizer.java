@@ -1,9 +1,9 @@
-package ru.mipt.cs.easypiano.recognition.analysis;
+package recognition.analysis;
 //SASHA
-import ru.mipt.cs.easypiano.graphics.visualisation.Visualizer;
-import ru.mipt.cs.easypiano.recognition.aggregation.WavWrapper;
-import ru.mipt.cs.easypiano.sound.MidiPlayer;
-import ru.mipt.cs.easypiano.sound.Notes;
+import graphics.visualisation.Visualizer;
+import recognition.aggregation.WavWrapper;
+import sound.MidiPlayer;
+import sound.Notes;
 
 
 /**

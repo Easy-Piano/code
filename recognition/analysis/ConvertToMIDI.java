@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.recognition.analysis;
+package recognition.analysis;
 //SASHA
 /**
  * Created by 1 on 24.04.2014.

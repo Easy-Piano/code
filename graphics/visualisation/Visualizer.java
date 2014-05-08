@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.graphics.visualisation;
+package graphics.visualisation;
 //SASHA
 /**
  * Created by 1 on 26.04.2014.

@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.sound;
+package sound;
 //SASHA
 /**
  * Created by 1 on 04.04.14.

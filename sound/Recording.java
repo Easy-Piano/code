@@ -1,6 +1,6 @@
-package ru.mipt.cs.easypiano.sound;
+package sound;
 //SASHA
-import ru.mipt.cs.easypiano.test.sasha.Test;
+import test.sasha.Test;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,14 +1,14 @@
-package ru.mipt.cs.easypiano.sound;
+package sound;
 //SASHA
 /**
  * Created by 1 on 27.04.2014.
  */
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MidiPlayer {
 

@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.recognition.aggregation.wavhelp;
+package recognition.aggregation.wavhelp;
 
 public class WavFileException extends Exception
 {
