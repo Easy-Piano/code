@@ -1,6 +1,6 @@
-package ru.mipt.cs.easypiano.test.sasha;
+package test.sasha;
 //SASHA
-import ru.mipt.cs.easypiano.graphics.visualisation.RecordDialog;
+import graphics.visualisation.RecordDialog;
 
 /**
  * Created by 1 on 04.05.2014.
