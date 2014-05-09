@@ -24,27 +24,24 @@ public class MainFrame extends JFrame{
         layout.setAutoCreateContainerGaps(true);
 
 
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addComponent(exerciseButton)
-                .addComponent(nameLabel)
-                    .addGroup(layout.createParallelGroup()
-                    .addComponent(musicBankButton)
-                    .addComponent(pianoButton)
-                    .addComponent(statsButton)
-                    .addComponent(tutorialButton))
+        layout.setHorizontalGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                     .addComponent(exerciseButton)
+                     .addComponent(nameLabel))
+                .addComponent(musicBankButton)
+                .addComponent(pianoButton)
+                .addComponent(statsButton)
+                .addComponent(tutorialButton)
         );
 
-        layout.setVerticalGroup(layout.createParallelGroup()
-                .addComponent(exerciseButton)
-                .addGroup(layout.createSequentialGroup()
-                        .addComponent(nameLabel)
-                        .addComponent(musicBankButton)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(pianoButton)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addComponent(statsButton)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(tutorialButton)))))
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(exerciseButton)
+                        .addComponent(nameLabel))
+                .addComponent(musicBankButton)
+                .addComponent(pianoButton)
+                .addComponent(statsButton)
+                .addComponent(tutorialButton)
         );
 
     setTitle("Easy Piano");
