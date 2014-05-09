@@ -15,8 +15,6 @@ public class MainFrame extends JFrame{
         JButton statsButton = new JButton ("My Statistics");
         JButton tutorialButton = new JButton (" Tutorial ");
 
-
-
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
 
@@ -25,7 +23,7 @@ public class MainFrame extends JFrame{
 
 
         layout.setHorizontalGroup(layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createSequentialGroup(  )
                      .addComponent(exerciseButton)
                      .addComponent(nameLabel))
                 .addComponent(musicBankButton)
@@ -35,7 +33,7 @@ public class MainFrame extends JFrame{
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createParallelGroup( GroupLayout.Alignment.CENTER )
                         .addComponent(exerciseButton)
                         .addComponent(nameLabel))
                 .addComponent(musicBankButton)
