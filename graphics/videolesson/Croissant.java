@@ -1,5 +1,6 @@
-package Ivan.Window;
+package graphics.videolesson;
 
+//IVAN
 public class Croissant {
     private int note;
     private int startTick;
