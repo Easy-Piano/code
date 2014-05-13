@@ -26,7 +26,7 @@ public class WavWrapper {
             sampleRate = wavFile.getSampleRate();
             getArrays();
             wavFile.close();
-            setTime((double) (sampleRate/1000d));
+            setTime(((double)sampleRate/1000d));
         }
         catch (Exception e)
         {

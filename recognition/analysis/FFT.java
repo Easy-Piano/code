@@ -1,6 +1,6 @@
 package recognition.analysis;
 //SASHA
-import graphics.visualisation.Visualizer;
+
 
 /**
  * Created by 1 on 25.04.2014.
@@ -48,8 +48,18 @@ public class FFT {
             mmax = istep;
         }
     }
+    public static double[] getSpectrum(double[] signal){
+        int n = Recognizer.FOURIER_N;
+        double[] spec = new double[n];
+        complexToComplex(-1,n,signal,spec);
+        n=n/2;//as second part is symmetric
+        for (int i=0; i<n; i++){
+            spec[i]=Math.sqrt(signal[i]*signal[i]+spec[i]*spec[i]);
+        }
+        return spec; //signal array is now spoiled!
+    }
     public static double[] RealToReal(double[] signal, int from) {
-        int n = Visualizer.N;
+        int n = Recognizer.FOURIER_N;
         if ((n+from)>signal.length) return null;
         double[] backup = new double[n];
         double[] zeros = new double[n];
@@ -61,7 +71,6 @@ public class FFT {
         for (int i=0; i<n; i++){
             backup[i]=Math.sqrt(backup[i]*backup[i]+zeros[i]*zeros[i]);
         }
-
         return backup;
     }
 }

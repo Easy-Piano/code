@@ -1,5 +1,6 @@
-package sound;
+package recognition.aggregation;
 //SASHA
+
 import test.sasha.Test;
 
 import java.io.File;
@@ -84,6 +85,32 @@ public class Recording {
     public void stopRecording() {
         mike.stop();
         mike.close();
+    }
+    public void mikeStart(){
+        mike.start();
+    }
+    public AudioInputStream getStream(){
+        AudioInputStream sound;
+        DataLine.Info info = new DataLine.Info(TargetDataLine.class,format);
+        if (!AudioSystem.isLineSupported(info)) {
+            JOptionPane.showMessageDialog(null, "Line not supported"
+                            + info, "Line not supported",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            mike = (TargetDataLine) AudioSystem.getLine(info);
+            mike.open(format, mike.getBufferSize());
+            sound = new AudioInputStream(mike);
+            return sound;
+        }catch (LineUnavailableException ex) {
+            JOptionPane.showMessageDialog(null, "Line not available"
+                            + ex, "Line not available",
+                    JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    public double getSampleRate(){
+        return mike.getFormat().getSampleRate();
     }
 }
 

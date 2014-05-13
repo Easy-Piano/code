@@ -1,6 +1,5 @@
 package test.sasha;
 //SASHA
-
 import sound.MidiPlayer;
 
 import javax.sound.midi.*;

@@ -7,7 +7,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import sound.Notes;
+import recognition.analysis.Notes;
 
 import javax.swing.*;
 
@@ -36,6 +36,6 @@ public class FourierVisualizer implements Visualizer {
             if (array[i]>max) {max=array[i];maxnum=i;}
         }
         System.out.println("Min frequency is "+minFrequency+" Max is on frequency "+(maxnum*minFrequency)+"+-"+minFrequency/2+" Max amplitude is "+max);
-        System.out.println("note number is "+ Notes.getNoteNumber(maxnum * minFrequency));
+        System.out.println("note number is "+ ((Notes) Notes.getInstance()).getNoteNumber(maxnum * minFrequency));
     }
 }

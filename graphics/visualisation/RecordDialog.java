@@ -1,6 +1,7 @@
 package graphics.visualisation;
 //SASHA
-import sound.Recording;
+
+import recognition.aggregation.Recording;
 import sound.WavSound;
 
 import javax.swing.*;
