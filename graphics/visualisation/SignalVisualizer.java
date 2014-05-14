@@ -19,15 +19,15 @@ public class SignalVisualizer implements Visualizer {
         double i;//to track time coordinate
         int mymax=(MAX < array.length ? MAX : array.length);
         for (i=0; i<mymax; i+= STEP){
-            series.add(i/sampleRate,array[(int)i]);
+        series.add(i/sampleRate,array[(int)i]);
         }
         XYDataset xyDataset = new XYSeriesCollection(series);
         JFreeChart chart = ChartFactory.createXYLineChart("y=magnitude(time)", "time", "magnitude",
-                xyDataset, PlotOrientation.VERTICAL, true, true, true);
+        xyDataset, PlotOrientation.VERTICAL, true, true, true);
         JFrame frame = new JFrame(((Integer)(numChannel)).toString());
         frame.getContentPane().add(new ChartPanel(chart));
         frame.setSize(800,600);
         frame.setVisible(true);
         //************************************************************
-    }
-}
+        }
+        }
