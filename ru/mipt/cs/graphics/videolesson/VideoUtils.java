@@ -15,9 +15,7 @@ public class VideoUtils {
 
         try {
             sequence = MidiSystem.getSequence(new File(fName));
-        } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InvalidMidiDataException | IOException e) {
             e.printStackTrace();
         }
 

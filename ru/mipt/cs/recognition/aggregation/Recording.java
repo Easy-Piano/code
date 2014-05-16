@@ -27,7 +27,7 @@ public class Recording {
     private TargetDataLine mike;
 
     // создать новый файл
-    public File getNewFile() {////////////////////////Test.resourcePath added
+    public File getNewFile() {////////////////////////MySQLAccess.resourcePath added
         try {
             do {
                 // новое название файла
