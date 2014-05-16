@@ -15,16 +15,17 @@ public class MainFrame extends JFrame{
     private JButton aboutButton;
 
     public MainFrame(){
-        super("HW!");
+        super("Easy Piano");
 
         setContentPane(rootPanel);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
+
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                StartFrame startFrame = new StartFrame();
             }
         });
 
@@ -46,6 +47,7 @@ public class MainFrame extends JFrame{
 
             }
         });
+
         setVisible(true);
 
     }
