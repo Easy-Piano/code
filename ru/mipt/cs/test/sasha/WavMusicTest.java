@@ -15,12 +15,12 @@ public class WavMusicTest implements Test{
         String s1= resourcePath;
         String s2= resourcePath;
         s1+="Chopin.wav";
-        s2+="ritm02.wav";
+        s2+="yiruma-river_flows_in_you.mid";
 
         t[0]=new PlaySoundThread(s1);
         t[1]=new PlaySoundThread(s2);
 
-        t[0].start();//runs in new thread
+        //t[0].start();//runs in new thread
         try{
             Thread.currentThread().sleep(5000);
             t[1].start();

@@ -138,11 +138,7 @@ public class Notes implements Serializable{//is also a Singleton
                 Notes notes = (Notes) (new ObjectInputStream(new FileInputStream(saveName))).readObject();
                 return notes;
             }
-        }catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         return null;

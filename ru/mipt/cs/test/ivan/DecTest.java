@@ -1,6 +1,7 @@
 package ru.mipt.cs.test.ivan;
 
-import ru.mipt.cs.graphics.videolesson.*;
+import ru.mipt.cs.graphics.videolesson.Croissant;
+import ru.mipt.cs.graphics.videolesson.VideoUtils;
 //IVAN
 public class DecTest {
     public static void main(String[] args){
