@@ -14,7 +14,6 @@ public class Notes implements Serializable{//is also a Singleton
             "ru\\mipt\\cs\\resourses\\notes\\";
     private final static String saveName = Notes.class.getClassLoader().getResource("//").getPath()+
             "ru\\mipt\\cs\\resourses\\" +"serialized.out";
-
     protected static boolean wasInitialized = false;
     protected static volatile Notes instance;
     public static final int GAUGES=200;//how many experiments to carry out in order to calibrate from .wav file
@@ -125,7 +124,7 @@ public class Notes implements Serializable{//is also a Singleton
     }
     private static Notes getInstanceFromFile(){
         try {
-            if (wasInitialized == false) {
+            if (!wasInitialized) {
                 if (!((new File(saveName)).exists())) {
                     Notes notes = new Notes();
                     instance = notes;
@@ -229,9 +228,7 @@ public class Notes implements Serializable{//is also a Singleton
             System.out.println("dp = "+dp);*/
             System.out.println("note "+noteNumber+" spectrum received");
             save();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IndexOutOfBoundsException e){
+        } catch (IOException | IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }

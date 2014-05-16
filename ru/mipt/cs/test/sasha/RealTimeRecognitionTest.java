@@ -5,7 +5,7 @@ import ru.mipt.cs.recognition.analysis.MonoRecognizer;
 /**
  * Created by 1 on 10.05.2014.
  */
-public class RealTimeRecognitionTest implements Test {
+public class RealTimeRecognitionTest implements ru.mipt.cs.test.sasha.Test {
     /*
         recognizes 100% of separate notes on my computer from my second computer dynamics, used virtualpiano.net
         strongly calibrated for mentioned computer, in order to get better result on yours, create files
