@@ -16,7 +16,7 @@ public class RealTimeRecognitionTest implements Test {
         Notes.getInstance().showSpec(41);*/
         //Notes.getInstance().showSpec(60);
         //Notes.getInstance().showSpec(96);
-        new MonoRecognizer().realTimeRecognize();//initialization is first, may take long time for the first launch!
+        new MonoRecognizer().realTimeRecognize();//initialization is first (if there is no serialized.out file), may take long time for the first launch!
         //and Notes.RealTimeCalibrate() was not tested too much
     }
 }

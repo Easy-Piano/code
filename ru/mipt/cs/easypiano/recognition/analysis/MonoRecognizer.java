@@ -21,7 +21,7 @@ import java.util.Vector;
  */
 public class MonoRecognizer extends Recognizer  {
     private static int SIZE=1000000;//will be changed in method according to sound file length
-    private final static double THRESHOLD=0.8d;
+    private final static double THRESHOLD=0.6d;
     private final static double FILE_THRESHOLD=0.8d;
     private final static int OFFSET=0;
     private final static int STEP=1000;
