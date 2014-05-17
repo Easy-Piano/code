@@ -1,6 +1,7 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,14 +12,15 @@ public class MainFrame extends JFrame{
     private JButton statisticsButton;
     private JButton graphicsButton;
     private JButton aboutButton;
+    public boolean noFileName = true;
 
     public MainFrame(){
         super("Easy Piano");
 
         setContentPane(rootPanel);
         pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
 
         startButton.addActionListener(new java.awt.event.ActionListener() {
@@ -46,11 +48,8 @@ public class MainFrame extends JFrame{
             }
         });
 
+        setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);
 
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }
