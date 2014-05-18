@@ -1,5 +1,7 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
+import ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames.ErrorFrame;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +31,16 @@ public class StartFrame extends JFrame{
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     File file = fileOpen.getSelectedFile();
                     nameOfFile = file.getAbsolutePath();
-                    System.out.println("1" + nameOfFile);
+                }
+            }
+        });
+
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (nameOfFile != null)
+                    System.out.println(nameOfFile);
+                else {
+                    ErrorFrame errorFrame = new ErrorFrame();
                 }
             }
         });
