@@ -30,7 +30,7 @@ public class NotesExtractor {
         }
         public class NoteInfo{
             /*
-            example of using class in main
+            example of usage class in main
             NoteInfo NI = (new NotesExtractor("path_to_file.mid")).getNoteInfo();
             Vector startTimes = NI.getSTvec(myNoteNumber);
             Vector endTimes = NI.getETvec(myNoteNumber);
