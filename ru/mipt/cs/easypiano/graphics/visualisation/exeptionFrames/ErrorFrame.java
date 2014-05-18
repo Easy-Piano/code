@@ -9,18 +9,21 @@ import java.awt.event.ActionEvent;
 public class ErrorFrame extends JFrame{
     private JButton okButton;
     private JPanel errorPanel;
+    private JLabel Label;
 
-    public ErrorFrame(){
+    public ErrorFrame(String text){
         super ("ERROR !");
 
+        Label.setText(text);
         setContentPane(errorPanel);
         pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Закрыть окно");
+                dispose();
             }
         });
 

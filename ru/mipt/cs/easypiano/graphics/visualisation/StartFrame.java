@@ -1,6 +1,7 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
 import ru.mipt.cs.easypiano.graphics.videolesson.VideoFrame;
+import ru.mipt.cs.easypiano.graphics.videolesson.piano.keyboard.PanelPictureFrame;
 import ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames.ErrorFrame;
 
 import javax.swing.*;
@@ -16,9 +17,9 @@ public class StartFrame extends JFrame{
     private JButton chooseFileButton;
     private JButton startButton;
     private String nameOfFile;
+    private String typeOfFile;
 
     public StartFrame(){
-        super ("Video Exercise");
 
         setContentPane(startPanels);
         pack();
@@ -32,6 +33,7 @@ public class StartFrame extends JFrame{
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     File file = fileOpen.getSelectedFile();
                     nameOfFile = file.getAbsolutePath();
+                    typeOfFile = getFileExtention(nameOfFile);
                 }
             }
         });
@@ -39,11 +41,18 @@ public class StartFrame extends JFrame{
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (nameOfFile != null){
-                    VideoFrame videoFrame = new VideoFrame();
-                    videoFrame.setVisible(true);
+                    if (typeOfFile == "mid"){
+                        VideoFrame videoFrame = new VideoFrame(nameOfFile);
+                        videoFrame.setVisible(true);
+                    }
+                    else{
+                        System.out.println(typeOfFile);
+                        ErrorFrame errorFrame = new ErrorFrame("The extention of file is wrong");
+                    }
                 }
                 else {
-                    ErrorFrame errorFrame = new ErrorFrame();
+
+                    ErrorFrame errorFrame = new ErrorFrame("You did't choose file");
                 }
             }
         });
@@ -53,5 +62,10 @@ public class StartFrame extends JFrame{
 
     public String getNameOfFile (){
         return nameOfFile;
+    }
+
+    private  String getFileExtention(String filename){
+        int dotPos = filename.lastIndexOf(".")+1;
+        return filename.substring(dotPos);
     }
 }

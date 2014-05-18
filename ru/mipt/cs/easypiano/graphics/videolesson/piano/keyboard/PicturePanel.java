@@ -70,4 +70,6 @@ public class PicturePanel extends JPanel {
         }
         repaint();
     }
+
+
 }
