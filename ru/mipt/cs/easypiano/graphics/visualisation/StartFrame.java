@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import ru.mipt.cs.easypiano.graphics.videolesson.video.extention.*;
 
 /**
  * Created by Asus on 16.05.14.
@@ -33,7 +34,7 @@ public class StartFrame extends JFrame{
                 if (ret == JFileChooser.APPROVE_OPTION) {
                     File file = fileOpen.getSelectedFile();
                     nameOfFile = file.getAbsolutePath();
-                    typeOfFile = getFileExtention(nameOfFile);
+                    typeOfFile = FileNameUtils.getExtension(nameOfFile);
                 }
             }
         });
@@ -41,7 +42,7 @@ public class StartFrame extends JFrame{
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (nameOfFile != null){
-                    if (typeOfFile == "mid"){
+                    if (typeOfFile.equals("mid")){
                         VideoFrame videoFrame = new VideoFrame(nameOfFile);
                         videoFrame.setVisible(true);
                     }
@@ -64,8 +65,4 @@ public class StartFrame extends JFrame{
         return nameOfFile;
     }
 
-    private  String getFileExtention(String filename){
-        int dotPos = filename.lastIndexOf(".")+1;
-        return filename.substring(dotPos);
-    }
 }
