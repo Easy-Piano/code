@@ -1,5 +1,7 @@
 package ru.mipt.cs.easypiano.recognition.aggregation.frommidi;
 //Sasha + Ivan
+import ru.mipt.cs.easypiano.recognition.analysis.Notes;
+
 import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +16,44 @@ public class NotesExtractor {
         private Vector vecNotes;
         private Vector vecStartTimes;//time when note starts, in milliseconds.
         private Vector vecDurations;//duration of note
+        private NoteInfo ni;
         public NotesExtractor(String fName){
             vecNotes = new Vector();
             vecStartTimes = new Vector();
             vecDurations = new Vector();
             decodeFile(fName);
-            show();
+            ni = new NoteInfo();
+            //show();
+        }
+        public NoteInfo getNoteInfo(){
+            return ni;
+        }
+        public class NoteInfo{
+            /*
+            example of using class in main
+            NoteInfo NI = (new NotesExtractor("path_to_file.mid")).getNoteInfo();
+            Vector startTimes = NI.getSTvec(myNoteNumber);
+            Vector endTimes = NI.getETvec(myNoteNumber);
+             */
+            protected Vector[] startTime;
+            protected Vector[] endTime;
+            protected NoteInfo(){
+                startTime = new Vector[Notes.NOTES_QUANTITY];
+                endTime = new Vector[Notes.NOTES_QUANTITY];
+                int n = vecNotes.size();
+                for (int i=0; i<n; i++){
+                    startTime[(int) vecNotes.get(i)].add(vecStartTimes.get(i));
+                    endTime[(int) vecNotes.get(i)].add((long)vecStartTimes.get(i)+(long)vecDurations.get(i));
+                }
+            }
+            public Vector getSTvec(int noteNumber){
+                if ((noteNumber < 0)||(noteNumber > Notes.NOTES_QUANTITY-1)) throw new IndexOutOfBoundsException();
+                return startTime[noteNumber];
+            }
+            public Vector getETvec(int noteNumber){
+                if ((noteNumber < Notes.FIRST_NOTE)||(noteNumber > Notes.LAST_NOTE)) throw new IndexOutOfBoundsException();
+                return endTime[noteNumber];
+            }
         }
         public void show(){
             int n=vecNotes.size();
