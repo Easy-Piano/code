@@ -1,5 +1,6 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
+import ru.mipt.cs.easypiano.graphics.videolesson.VideoFrame;
 import ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames.ErrorFrame;
 
 import javax.swing.*;
@@ -37,8 +38,10 @@ public class StartFrame extends JFrame{
 
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (nameOfFile != null)
-                    System.out.println(nameOfFile);
+                if (nameOfFile != null){
+                    VideoFrame videoFrame = new VideoFrame();
+                    videoFrame.setVisible(true);
+                }
                 else {
                     ErrorFrame errorFrame = new ErrorFrame();
                 }
