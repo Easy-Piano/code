@@ -1,7 +1,6 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
 import ru.mipt.cs.easypiano.graphics.videolesson.VideoFrame;
-import ru.mipt.cs.easypiano.graphics.videolesson.piano.keyboard.PanelPictureFrame;
 import ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames.ErrorFrame;
 
 import javax.swing.*;

@@ -28,6 +28,7 @@ public class NotesExtractor {
         public NoteInfo getNoteInfo(){
             return ni;
         }
+
         public class NoteInfo{
             /*
             example of usage class in main

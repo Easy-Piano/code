@@ -11,9 +11,9 @@ public class PanelPictureFrame extends JFrame {
        }
 
        private void initComponents() {
-            picturePanel1 = new PicturePanel();
-            jPanel1 = new javax.swing.JPanel();
-            picturePanel2 = new PicturePanel();
+           PicturePanel picturePanel1 = new PicturePanel();
+           JPanel jPanel1 = new JPanel();
+           PicturePanel picturePanel2 = new PicturePanel();
 
 
             setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -30,10 +30,5 @@ public class PanelPictureFrame extends JFrame {
         }
 
 
-
-
-        private javax.swing.JPanel jPanel1;
-        private PicturePanel  picturePanel2;
-        private PicturePanel picturePanel1;
- }
+}
 

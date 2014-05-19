@@ -5,15 +5,13 @@ import java.sql.*;
 //здесь используем h2 database
 public class Profile implements ProfileLoader, StatsLoader {
     private String name;
-    private int[] accuracy;
-    private String[] songs;
 
     private void setSongs(String[] songs) {
-        this.songs = songs;
+        String[] songs1 = songs;
     }
 
     private void setAccuracy(int[] accuracy) {
-        this.accuracy = accuracy;
+        int[] accuracy1 = accuracy;
     }
 
     private void setName(String name) {

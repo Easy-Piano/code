@@ -9,8 +9,7 @@ public class MySQLAccess {
 
         private Connection connect = null;
         private Statement statement = null;
-        private PreparedStatement preparedStatement = null;
-        private ResultSet resultSet = null;
+    private ResultSet resultSet = null;
 
         public void readDataBase() throws Exception {
             try {
@@ -27,7 +26,7 @@ public class MySQLAccess {
                 writeResultSet(resultSet);
 
                 // preparedStatements can use variables and are more efficient
-                preparedStatement = connect
+                PreparedStatement preparedStatement = connect
                         .prepareStatement("insert into  FEEDBACK.COMMENTS values (default, ?, ?, ?, ? , ?, ?)");
                 // "myuser, webpage, datum, summary, COMMENTS from FEEDBACK.COMMENTS");
                 // parameters start with 1

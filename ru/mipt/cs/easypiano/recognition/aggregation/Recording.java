@@ -2,24 +2,14 @@ package ru.mipt.cs.easypiano.recognition.aggregation;
 //SASHA
 import ru.mipt.cs.easypiano.test.sasha.Test;
 
+import javax.sound.sampled.*;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.TargetDataLine;
-import javax.swing.JOptionPane;
 
 public class Recording {
     // текущий звуковой файл
     private File file;
-    // полное имя файла
-    private String soundFileName;
-    // основное имя файла
-    private String filename = "samples_";
     // номер файла
     private int suffix = 0;
     // аудиформат
@@ -36,7 +26,8 @@ public class Recording {
         try {
             do {
                 // новое название файла
-                soundFileName = Test.resoursePath + filename + (suffix++) + "."+ fileType.getExtension();
+                String filename = "samples_";
+                String soundFileName = Test.resoursePath + filename + (suffix++) + "." + fileType.getExtension();
                 file = new File(soundFileName);
             } while (!file.createNewFile());
         } catch (IOException ex) {

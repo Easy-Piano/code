@@ -8,11 +8,8 @@ import java.awt.*;
 //IVAN
 public class VideoFrame extends JFrame {
 
-    private Canvas canvas;
-    private String nameOfFile;
-
     private JPanel createContentPanel(){
-        canvas = new Canvas();// задать ширину
+        Canvas canvas = new Canvas();
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
@@ -22,7 +19,7 @@ public class VideoFrame extends JFrame {
     }
 
     public VideoFrame(String nameOfFile){
-        this.nameOfFile = nameOfFile;
+        String nameOfFile1 = nameOfFile;
 
         setTitle("Virtual Piano");
 

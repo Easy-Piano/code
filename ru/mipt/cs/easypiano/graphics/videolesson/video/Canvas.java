@@ -4,19 +4,16 @@ package ru.mipt.cs.easypiano.graphics.videolesson.video;
 
 import ru.mipt.cs.easypiano.graphics.videolesson.resourse.LayoutConstant;
 import javax.swing.*;
-import java.awt.*;
 
 public class Canvas extends JPanel {
-    private int width;
-    private int height;
 
     private Thread repaintThread;
 
     public Canvas (){
 
         //layouting
-        this.width = LayoutConstant.canvasMinWidth;
-        this.height = LayoutConstant.canvasMinHeight;
+        int width = LayoutConstant.canvasMinWidth;
+        int height = LayoutConstant.canvasMinHeight;
         setSize(width, height);
 
     }

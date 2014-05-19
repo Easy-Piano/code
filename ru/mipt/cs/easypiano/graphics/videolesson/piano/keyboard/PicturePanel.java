@@ -62,8 +62,7 @@ public class PicturePanel extends JPanel {
             if (imageFile == null) {
                 originalImage = null;
             }
-            BufferedImage bi = ImageIO.read(imageFile);
-            originalImage = bi;
+            originalImage = ImageIO.read(imageFile);
         } catch (IOException ex) {
             System.err.println("Неудалось загрузить картинку!");
             ex.printStackTrace();

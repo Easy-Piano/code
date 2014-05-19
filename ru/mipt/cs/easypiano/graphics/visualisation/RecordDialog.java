@@ -14,7 +14,6 @@ import java.io.File;
 public class RecordDialog extends JFrame{
     private JButton recButton;
     private JButton playButton;
-    private JButton reservedButton;
     private boolean playpressed;
     private boolean recpressed;
     private Recording rt;
@@ -29,7 +28,7 @@ public class RecordDialog extends JFrame{
         fileLinked=false;
         recButton = new JButton();
         playButton = new JButton();
-        reservedButton = new JButton();
+        JButton reservedButton = new JButton();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("audio recognition inception");
         recButton.setText("StartRec");
@@ -45,7 +44,7 @@ public class RecordDialog extends JFrame{
                 playButtonActionPerformed(evt);
             }
         });
-        reservedButton.addActionListener( new ActionListener() {
+        reservedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 reservedButtonActionPerformed(evt);
             }

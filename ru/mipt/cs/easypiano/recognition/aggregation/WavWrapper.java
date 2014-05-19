@@ -10,15 +10,13 @@ import java.util.Vector;
  * Created by 1 on 26.04.2014.
  */
 public class WavWrapper {
-    private final int BUFFER_SIZE=100;//Constant
-    private String path;
     private int numChannels;
     private long sampleRate;//Hz
     private long time;
     private Vector arrays;
     private WavFile wavFile;
     public WavWrapper(String s){
-        path=s;
+        String path = s;
         try
         {
             wavFile = WavFile.openWavFile(new File(path));
@@ -52,6 +50,7 @@ public class WavWrapper {
             arrays.add(new Vector());
         }
         double buffer[];
+        int BUFFER_SIZE = 100;
         buffer = new double[BUFFER_SIZE * numChannels];
         int framesRead;
 

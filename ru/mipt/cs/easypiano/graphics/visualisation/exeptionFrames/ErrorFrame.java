@@ -1,7 +1,5 @@
 package ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames;
 
-import ru.mipt.cs.easypiano.graphics.visualisation.StartFrame;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 

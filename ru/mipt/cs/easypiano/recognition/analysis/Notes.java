@@ -11,9 +11,9 @@ import java.io.*;
 public class Notes implements Serializable{//is also a Singleton
     //and trivial neuronet was implemented inside
     public final static String notePath = Notes.class.getClassLoader().getResource("//").getPath()+
-            "ru\\mipt\\cs\\easypiano\\resourses\\notes\\";
+            "ru\\mipt\\cs\\easypiano\\resources\\notes\\";
     private final static String saveName = Notes.class.getClassLoader().getResource("//").getPath()+
-            "ru\\mipt\\cs\\easypiano\\resourses\\" +"serialized.out";
+            "ru\\mipt\\cs\\easypiano\\resources\\" + "serialized.out";
     protected static boolean wasInitialized = false;
     protected static volatile Notes instance;
     public static final int GAUGES=200;//how many experiments to carry out in order to calibrate from .wav file
@@ -135,12 +135,9 @@ public class Notes implements Serializable{//is also a Singleton
                 wasInitialized=true;//just in case
                 return notes;
             }else {//just in case
-                Notes notes = (Notes) (new ObjectInputStream(new FileInputStream(saveName))).readObject();
-                return notes;
+                return (Notes) (new ObjectInputStream(new FileInputStream(saveName))).readObject();
             }
         }catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
