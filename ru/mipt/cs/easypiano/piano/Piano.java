@@ -44,10 +44,10 @@ public class Piano extends JPanel {
         int height = Constants.KEY_FRAME_HEIGHT + Constants.PEDAL_PADDING +
                 Constants.PEDAL_HEIGHT;
 		setPreferredSize(new Dimension(width, height));
-		setFocusable(true); // to be able to read key
-		
+		setFocusable(true);
+
 		// listener interfaces
-		addMouseMotionListener(new PianoMouseMotionListener());
+        addMouseMotionListener(new PianoMouseMotionListener());
 		addMouseListener(new PianoMouseListener());
 		addKeyListener(new PianoViewKeyListener());
 	}
@@ -162,31 +162,6 @@ public class Piano extends JPanel {
 		for (int i = 0; i < Piano.NUM_KEYS; i++) {
             g.drawImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),
                    pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
-
-			/*g.setColor(PianoKey.COLOR_KEY_FRAME);
-			g.drawRect(Constants.KEY_FRAME_LEFT + i * Constants.KEY_LEFT_OFFSET,
-					   Constants.KEY_FRAME_TOP, Constants.KEY_FRAME_WIDTH - 1,
-					   Constants.KEY_FRAME_HEIGHT - 1);
-            g.drawImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getColor()),
-                    pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
-		}
-
-		// black first
-		for (PianoKey key: pianoKeys) {
-			if (!key.getColor()) {
-				g.setColor(key.getFillColor());
-				Rectangle bounds = key.getBounds();
-				g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-			}
-		}
-		
-		// white second
-		for (PianoKey key: pianoKeys) {
-			if (key.getColor()) {
-				g.setColor(key.getFillColor());
-				Rectangle bounds = key.getBounds();
-				g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-			}*/
 		}
 	}
 	
@@ -234,9 +209,7 @@ public class Piano extends JPanel {
 		return Piano.KEY_NOT_FOUND;
 	}
 
-	// Returns the actual width of the Piano.  We do not use the default
-	// getWidth in JComponent because before the component is drawn, getWidth
-	// will return 0.
+	// Returns the actual width of the Piano after initialising
 	public int getPianoWidth() {
 		return width;
 	}
@@ -246,7 +219,7 @@ public class Piano extends JPanel {
 		return basePitch;
 	}
 	
-    // Setters //
+    // Setters
 
 	// Increases the base pitch by one octave.
 	public void incOctave() {
@@ -274,18 +247,17 @@ public class Piano extends JPanel {
 	
 	// Listener's interfaces //
 
-	// Handles mouse motion. Detects whenever the mouse pointer goes out of a piano key.
-	private class PianoMouseMotionListener extends MouseMotionAdapter {
-		@Override
-		public void mouseMoved(MouseEvent e) {
-			setCurrentHovered(getHoveredKeyIndex(e.getPoint()));
-		}
-		
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			mouseMoved(e);
-		}
-	}
+    private class PianoMouseMotionListener extends MouseMotionAdapter {
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            setCurrentHovered(getHoveredKeyIndex(e.getPoint()));
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            mouseMoved(e);
+        }
+    }
 
 	// Handles mouse press and release on piano keys.
 	private class PianoMouseListener extends MouseAdapter {

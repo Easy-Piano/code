@@ -12,7 +12,7 @@ import javax.sound.midi.Sequence;
 import java.io.IOException;
 
 public class MusicResource {
-	// factory
+
 	private static MusicResource[] musicResources;
 	
 	private String fileName;
@@ -68,10 +68,4 @@ public class MusicResource {
 	public String getFileName() {
 		return fileName;
 	}
-
-    /*
-	public void play() {
-		MusicManager.getInstance().play(sequence);
-	}
-	*/
 }

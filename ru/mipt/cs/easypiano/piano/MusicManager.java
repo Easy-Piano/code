@@ -174,37 +174,4 @@ public class MusicManager {
 	public String getInstrumentName() {
 		return MusicManager.getInstrumentName(synthInstrument);
 	}
-
-    /*
-    // Plays the supplied Sequence. Only one MIDI music can play at the same time.
-    // If a music is currently playing, the previous music will be stopped first.
-    public void play(Sequence sequence) {
-        if (sequencer == null) return;
-
-        sequencer.stop();
-        sequencer.close();
-        try {
-            sequencer.open();
-        } catch (MidiUnavailableException e) {
-            ErrorHandler.display("Cannot play MIDI music");
-            return;
-        }
-
-        try {
-            sequencer.setSequence(sequence);
-            sequencer.setLoopCount(0);
-            sequencer.start();
-        } catch (InvalidMidiDataException e) {
-            ErrorHandler.display("MIDI music data is invalid");
-            // no error recovery
-        }
-
-    }
-
-    // Stops whatever is currently playing.
-	public void stop() {
-		if (sequencer == null) return;
-		sequencer.stop();
-	}
-    */
 }

@@ -24,12 +24,9 @@ public class Constants {
 	public static final int BLACK_KEY_HEIGHT = 173;
 	public static final int KEY_LEFT_OFFSET = WHITE_KEY_WIDTH + 1;
 	public static final int KEY_FRAME_HEIGHT = WHITE_KEY_HEIGHT + 2;
-    public static final int KEY_FRAME_WIDTH = WHITE_KEY_WIDTH + 2;
 	
 	public static final int PIANO_KEY_LEFT = 1;
 	public static final int PIANO_KEY_TOP = 1;
-	public static final int KEY_FRAME_LEFT = 0;
-	public static final int KEY_FRAME_TOP = 0;
 
 	public static final int PEDAL_WIDTH = 48;
 	public static final int PEDAL_HEIGHT = 36;
@@ -41,14 +38,6 @@ public class Constants {
 	public static final int INSTRUMENT_NUMBER_PADDING = 25;
     public static final Color INSTRUMENT_NUMBER_COLOR = new Color(1.0f, 1.0f, 1.0f);
 	public static final Font INSTRUMENT_NUMBER_FONT = new Font("Dialog", Font.PLAIN, 14);
-	
-	// octave number
-	public static final int OCTAVE_NUMBER_LEFT = 560;
-
-	// bye dialog
-	public static final String BYE_TITLE = "Bye";
-	public static final String BYE_MESSAGE = "Bye?";
-	public static final String[] BYE_OPTIONS = new String[]{"Bye!"};
 	
 	// keys
 	public static final int PEDAL_KEY = KeyEvent.VK_SPACE;
