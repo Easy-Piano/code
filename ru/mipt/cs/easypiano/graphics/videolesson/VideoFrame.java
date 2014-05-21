@@ -21,7 +21,7 @@ public class VideoFrame extends JFrame {
     public VideoFrame(String nameOfFile){
         String nameOfFile1 = nameOfFile;
 
-        setTitle("Virtual Piano");
+        setTitle("Visual lesson");
 
         add(createContentPanel());
 

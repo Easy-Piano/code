@@ -11,6 +11,7 @@ public class MainFrame extends JFrame{
     private JButton statisticsButton;
     private JButton graphicsButton;
     private JButton aboutButton;
+    private JButton searchButton;
     public boolean noFileName = true;
 
     public MainFrame(){
