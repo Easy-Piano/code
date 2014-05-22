@@ -26,7 +26,7 @@ public class Pedal {
 	
 	// Returns Image for drawing
 	public Image getImage() {
-		return ImageResource.getImage((isDown) ? ImageResource.PEDAL_DOWN : ImageResource.PEDAL_UP);
+		return ImageManager.getImage((isDown) ? ImageManager.PEDAL_DOWN : ImageManager.PEDAL_UP);
 	}
 
     public Point getPedalPos() {
@@ -41,9 +41,9 @@ public class Pedal {
 
 	public void setState(boolean isDown) {
 		if (!this.isDown && isDown) {
-			MusicManager.getInstance().pedalDown();
+			MidiManager.getInstance().pedalDown();
 		} else if (this.isDown && !isDown) {
-			MusicManager.getInstance().pedalUp();
+			MidiManager.getInstance().pedalUp();
 		}
 
 		this.isDown = isDown;

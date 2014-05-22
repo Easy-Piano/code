@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 
 public class Constants {
+<<<<<<< HEAD
 	// Video
     public static final int CANVAS_MINI_HEIGHT = 400;
     public static final int CANVAS_MINI_WIDTH = 1260;
@@ -30,6 +31,16 @@ public class Constants {
 	public static final int WHITE_KEY_HEIGHT = 280;
 	public static final int BLACK_KEY_WIDTH = 37;
 	public static final int BLACK_KEY_HEIGHT = 173;
+=======
+	
+	// piano
+	public static final Color PIANO_BACKGROUND_COLOR = new Color(0.6f, 0.7f, 0.7f);
+
+	public static final int WHITE_KEY_WIDTH = ImageManager.getInstance(ImageManager.WHITE_KEY_CENTRAL_UP).getWidth();
+	public static final int WHITE_KEY_HEIGHT = ImageManager.getInstance(ImageManager.WHITE_KEY_CENTRAL_UP).getHeight();
+	public static final int BLACK_KEY_WIDTH = ImageManager.getInstance(ImageManager.BLACK_KEY_UP).getWidth();
+	public static final int BLACK_KEY_HEIGHT = ImageManager.getInstance(ImageManager.BLACK_KEY_UP).getHeight();
+>>>>>>> b86198ecac09c40245af3b6b9b6e4b06a68f68a0
 	public static final int KEY_LEFT_OFFSET = WHITE_KEY_WIDTH + 1;
 	public static final int KEY_FRAME_HEIGHT = WHITE_KEY_HEIGHT + 2;
 	
@@ -49,5 +60,14 @@ public class Constants {
 	
 	// keys
 	public static final int PEDAL_KEY = KeyEvent.VK_SPACE;
-    public static final int OCTAVE_PITCH_DELTA = 12;
+    public static final int INC_OCTAVE = KeyEvent.VK_PAGE_UP;
+    public static final int DEC_OCTAVE = KeyEvent.VK_PAGE_DOWN;
+    public static final int NUM_KEYS_PER_OCTAVE = 12;
+
+    // Default base pitch (lowest playable note)
+    static final int DEFAULT_BASE_PITCH = 36;
+
+    // general
+    static final int NUM_OCTAVES = 6;
+    static final int NUM_KEYS = NUM_KEYS_PER_OCTAVE* NUM_OCTAVES + 1;
 }
