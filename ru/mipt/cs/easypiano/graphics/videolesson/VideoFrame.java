@@ -9,11 +9,12 @@ import java.awt.*;
 //IVAN
 public class VideoFrame extends JFrame {
 
+    private static String nameOfFile;
 
     public static Canvas canvas;
 
     private JPanel createContentPanel(){
-        canvas = new Canvas();
+        canvas = new Canvas(nameOfFile);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
@@ -23,7 +24,7 @@ public class VideoFrame extends JFrame {
     }
 
     public VideoFrame(String nameOfFile){
-        String nameOfFile1 = nameOfFile;
+        this.nameOfFile = nameOfFile;
 
         setTitle("Visual lesson");
 
