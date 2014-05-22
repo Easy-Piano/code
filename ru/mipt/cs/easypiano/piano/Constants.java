@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 
 public class Constants {
 
-    // piano
 	public static final Color PIANO_BACKGROUND_COLOR = new Color(0.6f, 0.7f, 0.7f);
 
 	public static final int WHITE_KEY_WIDTH = ImageManager.getInstance(ImageManager.WHITE_KEY_CENTRAL_UP).getWidth();
