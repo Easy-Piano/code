@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.test.dima.piano;
+package ru.mipt.cs.easypiano.test.dima;
 
 //Dima
 
