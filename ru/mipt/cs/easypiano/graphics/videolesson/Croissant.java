@@ -13,7 +13,7 @@ public class Croissant implements Runnable{
     // color = 2 - "BLACK"
     private int color;
     private int x;
-    private int y;
+    private int y = - duration - startTick/VideoConstants.CANVAS_CROISSANT_SPEED;
 
     public void setDuration(int num){
         duration = num;
@@ -24,14 +24,8 @@ public class Croissant implements Runnable{
     public void setStartTick (int num){
         startTick = num;
     }
-    public int  getNote (){
-        return note;
-    }
-    public int  getStartTick (){
-        return startTick;
-    }
-    public int  getDuration (){
-        return duration;
+    private void  findOutX(){
+        
     }
 
     private void findOutColor (){
@@ -48,9 +42,7 @@ public class Croissant implements Runnable{
             case 73:case 75:case 78:case 80:case 82: color =0; break;
             case 85:case 87:case 90:case 92:case 94: color =0; break;
             case 97:case 99:case 102:case 104:case 106: color =0; break;
-
         }
-
     }
 
     public void draw(Graphics g){
@@ -72,11 +64,11 @@ public class Croissant implements Runnable{
 
     @Override
     public void run() {
-        while (y < 500){
+        while (y < (VideoConstants.CANVAS_MINI_HEIGHT + duration) ) {
 
             y++;
             try {
-                Thread.currentThread().sleep(10);
+                Thread.currentThread().sleep(VideoConstants.CANVAS_CROISSANT_SPEED);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
