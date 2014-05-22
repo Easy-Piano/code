@@ -7,11 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeyboardControl {
-
-    public Map<Integer, Integer> getKeyMap() {
-        return keyMap;
-    }
+public class KeyboardControl extends Control {
 
     private Map<Integer, Integer> keyMap;
     private Piano piano;
@@ -152,13 +148,23 @@ public class KeyboardControl {
         }
     }
 
+    @Override
+    public int getNote(int keyCode) {
+        return keyMap.get(keyCode);
+    }
+
+    @Override
+    public boolean isNote(int keyCode) {
+        return keyMap.containsKey(keyCode);
+    }
+
     private class PianoViewKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
 
             if (keyCode == Constants.PEDAL_KEY) {
-                piano.pedal.setState(true);
+                piano.setPedalState(true);
             } else if (keyCode == KeyEvent.VK_LEFT) { // instrument --
                 MidiManager.getInstance().decSynthInstrument();
                 piano.repaint();
@@ -176,7 +182,7 @@ public class KeyboardControl {
                 piano.repaint();
             } else {
                 if (keyMap.containsKey(keyCode))
-                    piano.pianoKeys.get(keyMap.get(keyCode)).setState(true);
+                    piano.setKeyState(keyMap.get(keyCode), true);
             }
         }
 
@@ -184,9 +190,9 @@ public class KeyboardControl {
         public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
             if (keyCode == Constants.PEDAL_KEY) {
-                piano.pedal.setState(false);
+                piano.setPedalState(false);
             } else {
-                if (keyMap.containsKey(keyCode)) piano.pianoKeys.get(keyMap.get(keyCode)).setState(false);
+                if (keyMap.containsKey(keyCode)) piano.setKeyState(keyMap.get(keyCode), false);
             }
         }
     }

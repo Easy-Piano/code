@@ -3,6 +3,8 @@ package ru.mipt.cs.easypiano.test.dima;
 //Dima
 
 import ru.mipt.cs.easypiano.piano.AuxiliaryPanel;
+import ru.mipt.cs.easypiano.piano.Control;
+import ru.mipt.cs.easypiano.piano.KeyboardControl;
 import ru.mipt.cs.easypiano.piano.Piano;
 
 import javax.swing.*;
@@ -16,12 +18,15 @@ public class MainFrame extends JFrame {
 		contentPanel.setLayout(new GridBagLayout());
 
         Piano piano = new Piano();
-        piano.createKeyboardMouseControl();
+        Control keyboardControl= new KeyboardControl(piano);
+        Control mouseControl = new KeyboardControl(piano);
+        piano.addControl(keyboardControl);
+        piano.addControl(mouseControl);
         format.gridx = 0;
         format.gridy = 1;
 		contentPanel.add(piano, format);
 
-        AuxiliaryPanel auxiliaryPanel = new AuxiliaryPanel(piano, piano.keyboardControl);
+        AuxiliaryPanel auxiliaryPanel = new AuxiliaryPanel(piano);
         format.gridx = 1;
         format.gridy = 0;
         format.gridheight = 2;

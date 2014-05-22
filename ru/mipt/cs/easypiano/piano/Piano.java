@@ -10,13 +10,15 @@ import java.util.List;
 
 public class Piano extends JPanel {
 
-    protected List<PianoKey> pianoKeys;
-	protected Pedal pedal;
+    private List<PianoKey> pianoKeys;
+	private Pedal pedal;
+    protected List<Control> controlList;
 
 	private int width;
 	private int basePitch = Constants.DEFAULT_BASE_PITCH;
 	
 	public Piano() {
+        this.controlList = new ArrayList<Control>();
 		createKeys();		
 		createPedal();
 		// width already assigned in createKeys()
@@ -76,13 +78,41 @@ public class Piano extends JPanel {
 			pianoKey.setState(false);
 		}
 	}
+
+    public void setKeyState(int keyNum, boolean state){
+        pianoKeys.get(keyNum).setState(state);
+    }
+
+    public void setPedalState(boolean state){
+        pedal.setState(state);
+    }
 	
 	// Paints whole piano JPanel
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		paintKeys(g);
-		paintPedalArea(g);
+
+        // paint key frames
+        for (int i = 0; i < Constants.NUM_KEYS; i++) {
+            g.drawImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),
+                    pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
+        }
+
+        // Below code paints the pedal area (the area below piano keys).
+        g.setColor(Constants.PIANO_BACKGROUND_COLOR);
+        g.fillRect(0, Constants.KEY_FRAME_HEIGHT, width, Constants.PEDAL_AREA_HEIGHT);
+
+        // pedal
+        g.drawImage(pedal.getImage(), pedal.getPedalPos().x, pedal.getPedalPos().y, null);
+
+        // instrument number and octave number
+        g.setFont(Constants.INSTRUMENT_NUMBER_FONT);
+        g.setColor(Constants.INSTRUMENT_NUMBER_COLOR);
+        g.drawString(MidiManager.getInstance().getSynthInstrument() + ". " +
+                        MidiManager.getInstance().getInstrumentName(),
+                Constants.INSTRUMENT_NUMBER_LEFT,
+                Constants.KEY_FRAME_HEIGHT + Constants.INSTRUMENT_NUMBER_PADDING
+        );
 	}
 
 	@Override
@@ -90,46 +120,16 @@ public class Piano extends JPanel {
 		//Utilities.showMessage("Piano repaint()");
 		super.repaint();
 	}
-	
-	// Paints all keys with its frames
-	private void paintKeys(Graphics g) {		
-		// paint key frames
-		for (int i = 0; i < Constants.NUM_KEYS; i++) {
-            g.drawImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),
-                   pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
-		}
-	}
-	
-    // Paints the pedal area (the area below piano keys).
-	private void paintPedalArea(Graphics g) {
-		// background
-		g.setColor(Constants.PIANO_BACKGROUND_COLOR);
-		g.fillRect(0, Constants.KEY_FRAME_HEIGHT, width, Constants.PEDAL_AREA_HEIGHT);
-		
-		// pedal
-		g.drawImage(pedal.getImage(), pedal.getPedalPos().x, pedal.getPedalPos().y, null);
-		
-		// instrument number and octave number
-		g.setFont(Constants.INSTRUMENT_NUMBER_FONT);
-		g.setColor(Constants.INSTRUMENT_NUMBER_COLOR);
-		g.drawString(MidiManager.getInstance().getSynthInstrument() + ". " +
-				MidiManager.getInstance().getInstrumentName(),
-				Constants.INSTRUMENT_NUMBER_LEFT,
-				Constants.KEY_FRAME_HEIGHT + Constants.INSTRUMENT_NUMBER_PADDING
-        );
-	}
 
-    public void createKeyboardMouseControl(){
-        KeyboardControl keyboardControl = new KeyboardControl(this);
-        MouseControl mouseControl = new MouseControl(this);
+    public void addControl(Control c){
+        controlList.add(c);
     }
 
-	// Returns the actual width of the Piano after initialising
-	public int getPianoWidth() {
-		return width;
-	}
-	
-    // Returns the base pitch number of the Piano.  Used by the PianoKeys.
+    public List<PianoKey> getPianoKeys() {
+        return pianoKeys;
+    }
+
+
 	public int getBasePitch() {
 		return basePitch;
 	}

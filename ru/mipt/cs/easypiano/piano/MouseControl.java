@@ -7,7 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-public class MouseControl {
+public class MouseControl extends Control {
 
     private static final int KEY_NOT_FOUND = -1;
     private int currentHovered = KEY_NOT_FOUND;
@@ -23,20 +23,30 @@ public class MouseControl {
     // Returns KEY_NOT_FOUND if the point is not inside any key.
     public int getHoveredKeyIndex(Point point) {
         // white first
-        for (PianoKey key: piano.pianoKeys) {
+        for (PianoKey key: piano.getPianoKeys()) {
             if (key.getColor())
                 if (key.doesContainPoint(point))
                     return key.getIndex();
         }
 
         // black second
-        for (PianoKey key: piano.pianoKeys) {
+        for (PianoKey key: piano.getPianoKeys()) {
             if (!key.getColor())
                 if (key.doesContainPoint(point))
                     return key.getIndex();
         }
 
         return KEY_NOT_FOUND;
+    }
+
+    @Override
+    public int getNote(int keyCode) {
+        return 0;
+    }
+
+    @Override
+    public boolean isNote(int keyCode) {
+        return false;
     }
 
     private class PianoMouseMotionListener extends MouseMotionAdapter {
@@ -55,7 +65,7 @@ public class MouseControl {
     private void setCurrentHovered(int index) {
         if (currentHovered != index && currentHovered != KEY_NOT_FOUND) {
             // force release the previous hovered key
-            piano.pianoKeys.get(currentHovered).setState(false);
+            piano.setKeyState(currentHovered,true);
         }
         currentHovered = index;
     }
@@ -67,14 +77,14 @@ public class MouseControl {
         public void mousePressed(MouseEvent e) {
             int hovered = getHoveredKeyIndex(e.getPoint());
             if (hovered != KEY_NOT_FOUND)
-                piano.pianoKeys.get(hovered).setState(true);
+                piano.setKeyState(hovered,true);
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             int hovered = getHoveredKeyIndex(e.getPoint());
             if (hovered != KEY_NOT_FOUND)
-                piano.pianoKeys.get(hovered).setState(false);
+                piano.setKeyState(hovered,false);
         }
     }
 }

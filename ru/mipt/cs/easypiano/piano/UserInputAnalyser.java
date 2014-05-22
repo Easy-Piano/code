@@ -13,27 +13,27 @@ public class UserInputAnalyser implements Runnable  {
     private Piano piano;
     private long startAnalyserTime;
     private long workingTime;
-    private KeyboardControl keyboardControl;
+    private Control control;
 
-    public UserInputAnalyser(Piano piano, long workingTime, KeyboardControl keyboardControl) {
+    public UserInputAnalyser(Piano piano, long workingTime, Control control) {
         this.piano = piano;
         this.workingTime = workingTime;
-        this.keyboardControl = keyboardControl;
+        this.control = control;
     }
 
     private class PianoExerciseInputKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
-            if (keyboardControl.getKeyMap().containsKey(keyCode))
-                startTimes[keyboardControl.getKeyMap().get(keyCode)].add(System.currentTimeMillis()-startAnalyserTime);
+            if (control.isNote(keyCode))
+                startTimes[control.getNote(keyCode)].add(System.currentTimeMillis()-startAnalyserTime);
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
-            if (keyboardControl.getKeyMap().containsKey(keyCode)) {
-                endTimes[keyboardControl.getKeyMap().get(keyCode)].add(System.currentTimeMillis()-startAnalyserTime);
+            if (control.isNote(keyCode)) {
+                endTimes[control.getNote(keyCode)].add(System.currentTimeMillis()-startAnalyserTime);
             }
         }
     }
