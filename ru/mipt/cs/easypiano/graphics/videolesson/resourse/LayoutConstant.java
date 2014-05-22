@@ -1,7 +1,7 @@
 package ru.mipt.cs.easypiano.graphics.videolesson.resourse;
 
 
-import ru.mipt.cs.easypiano.piano.Constants;
+import ru.mipt.cs.easypiano.piano.*;
 
 
 public class LayoutConstant {
@@ -13,8 +13,8 @@ public class LayoutConstant {
 
 
     // canvas
-    public static final int CANVAS_MINI_HEIGHT = 500;
-    public static final int CANVAS_MINI_WIDTH =  TOTAL_BLACK_WIDTH + TOTAL_WHITE_WIDTH;
+    public static final int CANVAS_MINI_HEIGHT = 400;
+    public static final int CANVAS_MINI_WIDTH = TOTAL_BLACK_WIDTH + TOTAL_WHITE_WIDTH;
 
 
 }

@@ -34,7 +34,7 @@ public class VideoFrame extends JFrame {
         pack();
 
         setVisible(false);
-       // setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
     }
 
 
