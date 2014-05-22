@@ -6,8 +6,7 @@ package ru.mipt.cs.easypiano.piano;
 // implementation of the methods is just returning the value of private static
 // constants.
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Constants {
@@ -18,10 +17,10 @@ public class Constants {
     public static final boolean BLACK_COLOR = true;
     public static final boolean WHITE_COLOR = false;
 	
-	public static final int WHITE_KEY_WIDTH = 63;
-	public static final int WHITE_KEY_HEIGHT = 280;
-	public static final int BLACK_KEY_WIDTH = 37;
-	public static final int BLACK_KEY_HEIGHT = 173;
+	public static final int WHITE_KEY_WIDTH = ImageResource.getInstance(ImageResource.WHITE_KEY_CENTRAL_UP).getWidth();
+	public static final int WHITE_KEY_HEIGHT = ImageResource.getInstance(ImageResource.WHITE_KEY_CENTRAL_UP).getHeight();
+	public static final int BLACK_KEY_WIDTH = ImageResource.getInstance(ImageResource.BLACK_KEY_UP).getWidth();
+	public static final int BLACK_KEY_HEIGHT = ImageResource.getInstance(ImageResource.BLACK_KEY_UP).getHeight();
 	public static final int KEY_LEFT_OFFSET = WHITE_KEY_WIDTH + 1;
 	public static final int KEY_FRAME_HEIGHT = WHITE_KEY_HEIGHT + 2;
 	

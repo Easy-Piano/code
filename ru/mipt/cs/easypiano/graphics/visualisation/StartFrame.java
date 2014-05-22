@@ -1,13 +1,13 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
 import ru.mipt.cs.easypiano.graphics.videolesson.VideoFrame;
+import ru.mipt.cs.easypiano.graphics.videolesson.video.extention.FileNameUtils;
 import ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames.ErrorFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import ru.mipt.cs.easypiano.graphics.videolesson.video.extention.*;
 
 /**
  * Created by Asus on 16.05.14.
