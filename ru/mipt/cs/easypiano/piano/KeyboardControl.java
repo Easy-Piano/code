@@ -9,6 +9,10 @@ import java.util.Map;
 
 public class KeyboardControl {
 
+    public Map<Integer, Integer> getKeyMap() {
+        return keyMap;
+    }
+
     private Map<Integer, Integer> keyMap;
     private Piano piano;
 

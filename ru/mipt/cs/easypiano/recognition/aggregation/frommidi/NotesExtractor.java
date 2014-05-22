@@ -7,9 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
-/**
- * Created by 1 on 16.05.2014.
- */
 public class NotesExtractor {
         public static final int NOTE_ON = 0x90;
         public static final int NOTE_OFF = 0x80;
@@ -75,6 +72,7 @@ public class NotesExtractor {
         public Vector getDurations(){
             return vecDurations;
         }
+
         private void decodeFile (String fName){
             Sequence sequence = null;
             try {

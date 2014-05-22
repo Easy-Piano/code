@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MidiManager {
 
-	private static final String instrumentFileName = "ru/mipt/cs/easypiano/resources/instruments.txt";
+	private static final String INSTRUMENT_FILE_NAME = "ru/mipt/cs/easypiano/resources/instruments.txt";
 	
 	// single instance
 	private static MidiManager midiManager;
@@ -58,7 +58,7 @@ public class MidiManager {
 	private static void initInstrumentNames() {
 		instrumentNames = new ArrayList<String>();
 		try {
-			URL url = Utilities.getResourceURL(MidiManager.instrumentFileName);
+			URL url = Utilities.getResourceURL(MidiManager.INSTRUMENT_FILE_NAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
 			// Read line by line. Empty line or null line indicates an end

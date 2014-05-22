@@ -24,7 +24,6 @@ public class Piano extends JPanel {
                 Constants.PEDAL_HEIGHT;
 		setPreferredSize(new Dimension(width, height));
 		setFocusable(true);
-
 	}
 
 	// Create the piano keys, initializes them, registers listeners. Also populates width.
