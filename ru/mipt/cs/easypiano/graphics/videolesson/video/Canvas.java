@@ -3,8 +3,6 @@ package ru.mipt.cs.easypiano.graphics.videolesson.video;
 // Ivan
 
 import ru.mipt.cs.easypiano.graphics.videolesson.Croissant;
-import ru.mipt.cs.easypiano.graphics.videolesson.resourse.LayoutConstant;
-import ru.mipt.cs.easypiano.piano.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +17,8 @@ public class Canvas extends JPanel{
 
 
         //layouting
-        this.width = Constants.CANVAS_MINI_WIDTH;
-        this.height = Constants.CANVAS_MINI_HEIGHT;
+        this.width = VideoConstants.CANVAS_MINI_WIDTH;
+        this.height = VideoConstants.CANVAS_MINI_HEIGHT;
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.GRAY);
 

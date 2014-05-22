@@ -1,7 +1,8 @@
 package ru.mipt.cs.easypiano.graphics.videolesson;
 
 import java.awt.*;
-import ru.mipt.cs.easypiano.piano.Constants;
+
+import ru.mipt.cs.easypiano.graphics.videolesson.video.VideoConstants;
 
 //IVAN
 public class Croissant implements Runnable{
@@ -55,12 +56,12 @@ public class Croissant implements Runnable{
     public void draw(Graphics g){
         g.setColor(Color.GREEN);
         if (color == 1){
-            g.drawRoundRect(x, y,Constants.CANVAS_WHITE_KEY_WIDTH, 100, 10, 10);
-            g.fillRoundRect(x, y,Constants.CANVAS_WHITE_KEY_WIDTH, 100, 10, 10);
+            g.drawRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, 100, 10, 10);
+            g.fillRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, 100, 10, 10);
         }
         else{
-            g.drawRoundRect(x, y, Constants.CANVAS_BLACK_KEY_WIDTH ,60, 10, 10);
-            g.fillRoundRect(x, y, Constants.CANVAS_BLACK_KEY_WIDTH ,60, 10, 10);
+            g.drawRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH ,60, 10, 10);
+            g.fillRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH ,60, 10, 10);
         }
 
     }
