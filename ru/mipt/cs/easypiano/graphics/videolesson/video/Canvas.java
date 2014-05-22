@@ -15,7 +15,7 @@ public class Canvas extends JPanel{
 
     public Canvas (){
 
-
+        
         //layouting
         this.width = VideoConstants.CANVAS_MINI_WIDTH;
         this.height = VideoConstants.CANVAS_MINI_HEIGHT;
