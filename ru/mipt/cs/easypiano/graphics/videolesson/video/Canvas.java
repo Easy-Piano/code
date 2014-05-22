@@ -21,8 +21,12 @@ public class Canvas extends JPanel{
         this.height = VideoConstants.CANVAS_MINI_HEIGHT;
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.GRAY);
-
+        /*
+        c.setDuration(200);
+        c.setNote(37);
+        c.setStartTick(0);
         c.start();
+        */
     }
 
     public void  paintComponent(Graphics g){
