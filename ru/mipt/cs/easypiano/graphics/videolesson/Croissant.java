@@ -16,7 +16,7 @@ public class Croissant implements Runnable{
     // color = 0 - "BLACK"
     private  boolean color;
     private int x;
-    private int y=-( sizeY + startTick/VideoConstants.CANVAS_CROISSANT_SPEED);;
+    private int y=0;
 
     public void setDuration(int num){
         duration = num;
