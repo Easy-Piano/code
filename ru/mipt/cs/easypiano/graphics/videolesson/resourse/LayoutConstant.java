@@ -1,13 +1,20 @@
 package ru.mipt.cs.easypiano.graphics.videolesson.resourse;
 
-/**
- * Created by Asus on 18.05.14.
- */
+
+import ru.mipt.cs.easypiano.piano.Constants;
+
+
 public class LayoutConstant {
 
+    //for help
+    public static  final int TOTAL_WHITE_WIDTH = 7*Constants.WHITE_KEY_WIDTH;
+    public static  final int TOTAL_BLACK_WIDTH = 5*Constants.BLACK_KEY_WIDTH;
+
+
+
     // canvas
-    public static final int canvasMinHeight = 1000;
-    public static final int canvasMinWidth = 1000;
+    public static final int CANVAS_MINI_HEIGHT = 500;
+    public static final int CANVAS_MINI_WIDTH =  TOTAL_BLACK_WIDTH + TOTAL_WHITE_WIDTH;
 
 
 }

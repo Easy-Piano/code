@@ -1,6 +1,7 @@
 package ru.mipt.cs.easypiano.graphics.videolesson;
 
 import ru.mipt.cs.easypiano.graphics.videolesson.video.util.CustomGridBagConstraints;
+import ru.mipt.cs.easypiano.graphics.videolesson.video.Canvas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +9,11 @@ import java.awt.*;
 //IVAN
 public class VideoFrame extends JFrame {
 
+
+    public static Canvas canvas;
+
     private JPanel createContentPanel(){
-        Canvas canvas = new Canvas();
+        canvas = new Canvas();
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
@@ -24,13 +28,13 @@ public class VideoFrame extends JFrame {
         setTitle("Visual lesson");
 
         add(createContentPanel());
-
         setLocationByPlatform(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         pack();
 
-        setLocationRelativeTo(null);
+        setVisible(false);
+       // setLocationRelativeTo(null);
     }
 
 
