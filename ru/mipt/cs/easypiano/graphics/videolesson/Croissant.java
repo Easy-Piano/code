@@ -10,7 +10,8 @@ public class Croissant implements Runnable{
     private int note;
     private int startTick;
     private int duration;
-    private int sizeY;
+    private int sizeY=0;
+    private int sizeYMax;
     // color = 1 - "WHITE"
     // color = 0 - "BLACK"
     private  boolean color;
@@ -54,8 +55,8 @@ public class Croissant implements Runnable{
 
     }
 
-    private void findOutSizeY(){
-        sizeY = duration/VideoConstants.CANVAS_CROISSANT_SPEED;
+    private void findOutSizeYMax(){
+        sizeYMax = duration/VideoConstants.CANVAS_CROISSANT_SPEED;
     }
 
     private void findOutColor (){
@@ -76,13 +77,16 @@ public class Croissant implements Runnable{
     }
 
     public void draw(Graphics g){
-        g.setColor(Color.GREEN);
         if (color){
+            g.setColor(Color.BLUE);
             g.drawRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, sizeY, 10, 10);
+            g.setColor(Color.WHITE);
             g.fillRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, sizeY, 10, 10);
         }
         else{
+            g.setColor(Color.BLUE);
             g.drawRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH ,sizeY, 10, 10);
+            g.setColor(Color.BLACK);
             g.fillRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH ,sizeY, 10, 10);
         }
 
@@ -91,22 +95,32 @@ public class Croissant implements Runnable{
     public void start (){
         findOutColor();
         findOutX();
-        findOutSizeY();
+        findOutSizeYMax();
         new Thread(this).start();
     }
 
     @Override
     public void run() {
-        while (y < (VideoConstants.CANVAS_MINI_HEIGHT + duration/VideoConstants.CANVAS_CROISSANT_SPEED) ) {
 
+        try {
+            Thread.currentThread().sleep(startTick);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        while (y < (VideoConstants.CANVAS_MINI_HEIGHT + duration/VideoConstants.CANVAS_CROISSANT_SPEED) ) {
+            if (sizeY < sizeYMax){
+                sizeY++;
+                y--;
+            }
             y++;
             try {
                 Thread.currentThread().sleep(VideoConstants.CANVAS_CROISSANT_SPEED);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            VideoFrame.canvas.repaint();
         }
+        Thread.currentThread().stop();
     }
 
 }

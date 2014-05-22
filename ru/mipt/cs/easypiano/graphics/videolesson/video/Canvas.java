@@ -1,5 +1,15 @@
 package ru.mipt.cs.easypiano.graphics.videolesson.video;
 
+
+import ru.mipt.cs.easypiano.graphics.videolesson.Croissant;
+import ru.mipt.cs.easypiano.graphics.videolesson.video.VideoConstants;
+import ru.mipt.cs.easypiano.recognition.aggregation.frommidi.NotesExtractor;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Vector;
+
+
 // Ivan
 
 import ru.mipt.cs.easypiano.graphics.videolesson.Croissant;
@@ -9,8 +19,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-public class Canvas extends JPanel{
-    private Vector croissants;//Croissant c = new Croissant();
+public class Canvas extends JPanel {
+    private Vector croissants;
+    //Croissant c = new Croissant();
     private int width;
     private int height;
     private  boolean running = true;
@@ -23,12 +34,8 @@ public class Canvas extends JPanel{
         this.height = VideoConstants.CANVAS_MINI_HEIGHT;
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.GRAY);
-        /*
-        c.setDuration(200);
-        c.setNote(37);
-        c.setStartTick(0);
-        c.start();
-        */
+
+        // Take all information about notes in midi file
         croissants = new Vector();
         NotesExtractor NE = new NotesExtractor(nameOfFile);
         Vector durations = NE.getDurations();
@@ -42,9 +49,6 @@ public class Canvas extends JPanel{
             ((Croissant)croissants.get(i)).setStartTick((int)(long) startTimes.get(i));
         }
         startMotion();
-        /*for (int i=0; i<n; i++){
-            System.out.println("note is "+notes.get(i));
-        }*/
     }
     private void startMotion(){
         int n = croissants.size();
@@ -61,6 +65,6 @@ public class Canvas extends JPanel{
         for (int i=0; i<n; i++){
             ((Croissant)croissants.get(i)).draw(g2);
         }
-        //c.draw(g2);
+        repaint();
     }
 }
