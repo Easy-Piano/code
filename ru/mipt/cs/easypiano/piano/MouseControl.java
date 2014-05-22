@@ -65,7 +65,7 @@ public class MouseControl extends Control {
     private void setCurrentHovered(int index) {
         if (currentHovered != index && currentHovered != KEY_NOT_FOUND) {
             // force release the previous hovered key
-            piano.setKeyState(currentHovered,true);
+            piano.setKeyState(currentHovered,false);
         }
         currentHovered = index;
     }

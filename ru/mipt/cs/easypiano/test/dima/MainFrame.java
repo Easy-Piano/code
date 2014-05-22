@@ -2,10 +2,7 @@ package ru.mipt.cs.easypiano.test.dima;
 
 //Dima
 
-import ru.mipt.cs.easypiano.piano.AuxiliaryPanel;
-import ru.mipt.cs.easypiano.piano.Control;
-import ru.mipt.cs.easypiano.piano.KeyboardControl;
-import ru.mipt.cs.easypiano.piano.Piano;
+import ru.mipt.cs.easypiano.piano.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +16,7 @@ public class MainFrame extends JFrame {
 
         Piano piano = new Piano();
         Control keyboardControl= new KeyboardControl(piano);
-        Control mouseControl = new KeyboardControl(piano);
+        Control mouseControl = new MouseControl(piano);
         piano.addControl(keyboardControl);
         piano.addControl(mouseControl);
         format.gridx = 0;

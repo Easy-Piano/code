@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Piano extends JPanel {
 
-    private List<PianoKey> pianoKeys;
+    protected List<PianoKey> pianoKeys;
 	private Pedal pedal;
     protected List<Control> controlList;
 
@@ -117,16 +117,15 @@ public class Piano extends JPanel {
 
 	@Override
 	public void repaint() {
-		//Utilities.showMessage("Piano repaint()");
 		super.repaint();
 	}
 
     public void addControl(Control c){
-        controlList.add(c);
+        this.controlList.add(c);
     }
 
     public List<PianoKey> getPianoKeys() {
-        return pianoKeys;
+        return this.pianoKeys;
     }
 
 
