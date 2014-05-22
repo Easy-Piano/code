@@ -37,10 +37,10 @@ public class PianoKey {
 
     public Image getImage(final int type) {
         switch ( type ) {
-            case 0: return ImageResource.getImage( (isDown) ? ImageResource.BLACK_KEY_DOWN : ImageResource.BLACK_KEY_UP);
-            case 1: return ImageResource.getImage( (isDown) ? ImageResource.WHITE_KEY_CENTRAL_DOWN : ImageResource.WHITE_KEY_CENTRAL_UP);
-            case 2: return ImageResource.getImage( (isDown) ? ImageResource.WHITE_KEY_RIGHT_DOWN : ImageResource.WHITE_KEY_RIGHT_UP);
-            default: return ImageResource.getImage( (isDown) ? ImageResource.WHITE_KEY_LEFT_DOWN : ImageResource.WHITE_KEY_LEFT_UP);
+            case 0: return ImageManager.getImage((isDown) ? ImageManager.BLACK_KEY_DOWN : ImageManager.BLACK_KEY_UP);
+            case 1: return ImageManager.getImage((isDown) ? ImageManager.WHITE_KEY_CENTRAL_DOWN : ImageManager.WHITE_KEY_CENTRAL_UP);
+            case 2: return ImageManager.getImage((isDown) ? ImageManager.WHITE_KEY_RIGHT_DOWN : ImageManager.WHITE_KEY_RIGHT_UP);
+            default: return ImageManager.getImage((isDown) ? ImageManager.WHITE_KEY_LEFT_DOWN : ImageManager.WHITE_KEY_LEFT_UP);
         }
     }
 	
@@ -51,7 +51,7 @@ public class PianoKey {
 
     // Returns whether the specified pitch is chromatic.  Chromatic (Black keys) notes: C#, D#, F#, Ab, Bb.
     private static int calculateType(int pitch) {
-        int i = pitch % Constants.OCTAVE_PITCH_DELTA;
+        int i = pitch % Constants.NUM_KEYS_PER_OCTAVE;
         int res = 0;
         if (i == 1 || i == 3 || i == 6 || i == 8 || i == 10) res = 0;
         if (i == 2 || i == 7 || i == 9) res = 1;
@@ -61,7 +61,7 @@ public class PianoKey {
     }
 
     public static boolean isChromatic(int pitch) {
-        int basePitch = pitch % Constants.OCTAVE_PITCH_DELTA;
+        int basePitch = pitch % Constants.NUM_KEYS_PER_OCTAVE;
         return (
                 basePitch == 1 ||
                         basePitch == 3 ||
@@ -107,10 +107,10 @@ public class PianoKey {
 
 	public void setState(boolean isDown) {
 		if (!this.isDown && isDown) {
-			MusicManager.getInstance().playNote(getPitch());
+			MidiManager.getInstance().playNote(getPitch());
 		} else if (this.isDown && !isDown) {
 			// TODO: What happens if the octave changes before note stopped?
-			MusicManager.getInstance().stopNote(getPitch());
+			MidiManager.getInstance().stopNote(getPitch());
 		}
 			
 		this.isDown = isDown;

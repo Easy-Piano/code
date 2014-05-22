@@ -12,15 +12,12 @@ import java.awt.event.KeyEvent;
 public class Constants {
 	
 	// piano
-	public static final Color PIANO_BACKGROUND_COLOR = new Color(0.62352943f, 0.7019608f, 0.69411767f);
+	public static final Color PIANO_BACKGROUND_COLOR = new Color(0.6f, 0.7f, 0.7f);
 
-    public static final boolean BLACK_COLOR = true;
-    public static final boolean WHITE_COLOR = false;
-	
-	public static final int WHITE_KEY_WIDTH = ImageResource.getInstance(ImageResource.WHITE_KEY_CENTRAL_UP).getWidth();
-	public static final int WHITE_KEY_HEIGHT = ImageResource.getInstance(ImageResource.WHITE_KEY_CENTRAL_UP).getHeight();
-	public static final int BLACK_KEY_WIDTH = ImageResource.getInstance(ImageResource.BLACK_KEY_UP).getWidth();
-	public static final int BLACK_KEY_HEIGHT = ImageResource.getInstance(ImageResource.BLACK_KEY_UP).getHeight();
+	public static final int WHITE_KEY_WIDTH = ImageManager.getInstance(ImageManager.WHITE_KEY_CENTRAL_UP).getWidth();
+	public static final int WHITE_KEY_HEIGHT = ImageManager.getInstance(ImageManager.WHITE_KEY_CENTRAL_UP).getHeight();
+	public static final int BLACK_KEY_WIDTH = ImageManager.getInstance(ImageManager.BLACK_KEY_UP).getWidth();
+	public static final int BLACK_KEY_HEIGHT = ImageManager.getInstance(ImageManager.BLACK_KEY_UP).getHeight();
 	public static final int KEY_LEFT_OFFSET = WHITE_KEY_WIDTH + 1;
 	public static final int KEY_FRAME_HEIGHT = WHITE_KEY_HEIGHT + 2;
 	
@@ -40,5 +37,14 @@ public class Constants {
 	
 	// keys
 	public static final int PEDAL_KEY = KeyEvent.VK_SPACE;
-    public static final int OCTAVE_PITCH_DELTA = 12;
+    public static final int INC_OCTAVE = KeyEvent.VK_PAGE_UP;
+    public static final int DEC_OCTAVE = KeyEvent.VK_PAGE_DOWN;
+    public static final int NUM_KEYS_PER_OCTAVE = 12;
+
+    // Default base pitch (lowest playable note)
+    static final int DEFAULT_BASE_PITCH = 36;
+
+    // general
+    static final int NUM_OCTAVES = 6;
+    static final int NUM_KEYS = NUM_KEYS_PER_OCTAVE* NUM_OCTAVES + 1;
 }

@@ -12,10 +12,11 @@ public class MainFrame extends JFrame {
 
     private JPanel createContentPanel() {
         Piano piano = new Piano();
+        piano.createKeyboardMouseControl();
 		
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new GridBagLayout());
-		contentPanel.add(piano, new CustomGridBagConstraints(0, 1));
+		contentPanel.add(piano, new CustomGridBagConstraints(0, 0));
 		
 		return contentPanel;
 	}

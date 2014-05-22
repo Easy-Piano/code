@@ -2,8 +2,8 @@ package ru.mipt.cs.easypiano.test.dima.piano;
 
 //Dima
 
-import ru.mipt.cs.easypiano.piano.ImageResource;
-import ru.mipt.cs.easypiano.piano.MusicManager;
+import ru.mipt.cs.easypiano.piano.ImageManager;
+import ru.mipt.cs.easypiano.piano.MidiManager;
 
 import javax.swing.*;
 
@@ -16,9 +16,9 @@ public class VirtualPiano {
 		} catch (Exception ignored) {}
 
 		// init resources and systems
-		ImageResource.initFactory();
+		ImageManager.initFactory();
 		//MusicResource.initFactory();
-		MusicManager.init();
+		MidiManager.init();
 		
 		// intro message box
 		/*JOptionPane.showMessageDialog(null, "Tips:\nSpacebar = pedal",
