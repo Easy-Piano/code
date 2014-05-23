@@ -1,15 +1,5 @@
 package ru.mipt.cs.easypiano.graphics.videolesson.video;
 
-
-import ru.mipt.cs.easypiano.graphics.videolesson.Croissant;
-import ru.mipt.cs.easypiano.graphics.videolesson.video.VideoConstants;
-import ru.mipt.cs.easypiano.recognition.aggregation.frommidi.NotesExtractor;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Vector;
-
-
 // Ivan
 
 import ru.mipt.cs.easypiano.graphics.videolesson.Croissant;
@@ -19,12 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-public class Canvas extends JPanel {
+public class Canvas extends JPanel implements Runnable{
+    private long lastTime = System.currentTimeMillis();
+    private long delta;
     private Vector croissants;
-    //Croissant c = new Croissant();
     private int width;
     private int height;
-    private  boolean running = true;
     private String nameOfFile;
     public Canvas (String fileName){
         nameOfFile=fileName;
@@ -42,6 +32,7 @@ public class Canvas extends JPanel {
         Vector notes = NE.getNotes();
         Vector startTimes = NE.getStartTimes();
         int n = durations.size();
+        VideoConstants.NUMBER = notes.size();
         for (int i=0; i<n; i++){
             croissants.add(new Croissant());
             ((Croissant)croissants.get(i)).setDuration((int)(long)durations.get(i));
@@ -50,11 +41,11 @@ public class Canvas extends JPanel {
         }
         startMotion();
     }
+
+
+
     private void startMotion(){
-        int n = croissants.size();
-        for (int i=0; i<n; i++){
-            ((Croissant)croissants.get(i)).start();
-        }
+        new Thread(this).start();
     }
 
     public void  paintComponent(Graphics g){
@@ -63,8 +54,20 @@ public class Canvas extends JPanel {
         g2 = (Graphics2D ) g;
         int n = croissants.size();
         for (int i=0; i<n; i++){
-            ((Croissant)croissants.get(i)).draw(g2);
+            ((Croissant)croissants.get(i)).draw(g2, delta);
         }
-        repaint();
+    }
+
+    @Override
+    public void run() {
+        while (VideoConstants.NUMBER > 0){
+            try {
+                Thread.currentThread().sleep(VideoConstants.CANVAS_CROISSANT_SPEED);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            delta = System.currentTimeMillis() - lastTime;
+            repaint();
+        }
     }
 }

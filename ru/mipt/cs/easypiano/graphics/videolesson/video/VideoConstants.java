@@ -10,4 +10,5 @@ public class VideoConstants {
     public static final int CANVAS_WHITE_KEY_WIDTH = 30;
     public static final int CANVAS_BLACK_KEY_WIDTH = 24;
     public static final int CANVAS_CROISSANT_SPEED = 10;
+    public static int NUMBER ;
 }

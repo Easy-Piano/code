@@ -3,10 +3,11 @@ package ru.mipt.cs.easypiano.graphics.videolesson;
 import java.awt.*;
 
 import com.sun.java_cup.internal.runtime.virtual_parse_stack;
-import ru.mipt.cs.easypiano.graphics.videolesson.video.VideoConstants;
+import ru.mipt.cs.easypiano.graphics.videolesson.video.*;
+import ru.mipt.cs.easypiano.graphics.videolesson.video.Canvas;
 
 //IVAN
-public class Croissant implements Runnable{
+public class Croissant{
     private int note;
     private int startTick;
     private int duration;
@@ -15,7 +16,9 @@ public class Croissant implements Runnable{
     // color = 1 - "WHITE"
     // color = 0 - "BLACK"
     private  boolean color;
-    private int x;
+    private int flag1 = 1;
+    private int flag2 = 1;
+    private int x=0;
     private int y=0;
 
     public void setDuration(int num){
@@ -32,24 +35,24 @@ public class Croissant implements Runnable{
         rest = (note -36)%12;
         whole = (note - 36)/12;
         if (color){
-            x=(whole*7)*VideoConstants.CANVAS_WHITE_KEY_WIDTH;
+            x=((whole)*7)*VideoConstants.CANVAS_WHITE_KEY_WIDTH;
             switch (rest){
-                case 0: x=+0; break;
-                case 2: x=+VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
-                case 4: x=+2*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
-                case 5: x=+3*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
-                case 7: x=+4*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
-                case 9: x=+5*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
-                case 11: x=+6*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
+                case 0: x+=0; break;
+                case 2: x+=VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
+                case 4: x+=2*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
+                case 5: x+=3*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
+                case 7: x+=4*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
+                case 9: x+=5*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
+                case 11: x+=6*VideoConstants.CANVAS_WHITE_KEY_WIDTH; break;
             }
         }
         else{
             switch (rest){
-                case 1: x=whole*7*VideoConstants.CANVAS_WHITE_KEY_WIDTH + VideoConstants.CANVAS_WHITE_KEY_WIDTH-VideoConstants.CANVAS_BLACK_KEY_WIDTH; break;
-                case 3: x=(whole*7+1)*VideoConstants.CANVAS_WHITE_KEY_WIDTH + VideoConstants.CANVAS_WHITE_KEY_WIDTH-VideoConstants.CANVAS_BLACK_KEY_WIDTH; break;
-                case 6: x=(whole*7+3)*VideoConstants.CANVAS_WHITE_KEY_WIDTH + VideoConstants.CANVAS_WHITE_KEY_WIDTH-VideoConstants.CANVAS_BLACK_KEY_WIDTH; break;
-                case 8: x=(whole*7+4)*VideoConstants.CANVAS_WHITE_KEY_WIDTH + VideoConstants.CANVAS_WHITE_KEY_WIDTH-VideoConstants.CANVAS_BLACK_KEY_WIDTH; break;
-                case 10: x=(whole*7+5)*VideoConstants.CANVAS_WHITE_KEY_WIDTH + VideoConstants.CANVAS_WHITE_KEY_WIDTH-VideoConstants.CANVAS_BLACK_KEY_WIDTH; break;
+                case 1: x=(whole*7+1)*VideoConstants.CANVAS_WHITE_KEY_WIDTH - VideoConstants.CANVAS_BLACK_KEY_WIDTH/2; break;
+                case 3: x=(whole*7+2)*VideoConstants.CANVAS_WHITE_KEY_WIDTH - VideoConstants.CANVAS_BLACK_KEY_WIDTH/2; break;
+                case 6: x=(whole*7+4)*VideoConstants.CANVAS_WHITE_KEY_WIDTH - VideoConstants.CANVAS_BLACK_KEY_WIDTH/2; break;
+                case 8: x=(whole*7+5)*VideoConstants.CANVAS_WHITE_KEY_WIDTH - VideoConstants.CANVAS_BLACK_KEY_WIDTH/2; break;
+                case 10: x=(whole*7+6)*VideoConstants.CANVAS_WHITE_KEY_WIDTH - VideoConstants.CANVAS_BLACK_KEY_WIDTH/2; break;
             }
         }
 
@@ -76,7 +79,24 @@ public class Croissant implements Runnable{
         }
     }
 
-    public void draw(Graphics g){
+    public void draw(Graphics g, long delta){
+        if (flag1 == 1){
+            start();
+            flag1 = 0;
+        }
+        if (y < (VideoConstants.CANVAS_MINI_HEIGHT + duration/VideoConstants.CANVAS_CROISSANT_SPEED) && (delta >= startTick) ) {
+            if (sizeY < sizeYMax){
+                sizeY++;
+                y--;
+            }
+            y++;
+        }
+        else{
+            if (delta > startTick && (flag2 == 1)) {
+                VideoConstants.NUMBER --;
+                flag2 =0 ;
+            }
+        }
         if (color){
             g.setColor(Color.BLUE);
             g.drawRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, sizeY, 10, 10);
@@ -96,31 +116,5 @@ public class Croissant implements Runnable{
         findOutColor();
         findOutX();
         findOutSizeYMax();
-        new Thread(this).start();
     }
-
-    @Override
-    public void run() {
-
-        try {
-            Thread.currentThread().sleep(startTick);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        while (y < (VideoConstants.CANVAS_MINI_HEIGHT + duration/VideoConstants.CANVAS_CROISSANT_SPEED) ) {
-            if (sizeY < sizeYMax){
-                sizeY++;
-                y--;
-            }
-            y++;
-            try {
-                Thread.currentThread().sleep(VideoConstants.CANVAS_CROISSANT_SPEED);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        Thread.currentThread().stop();
-    }
-
 }
