@@ -2,10 +2,6 @@ package ru.mipt.cs.easypiano.graphics.videolesson;
 
 import java.awt.*;
 
-import com.sun.java_cup.internal.runtime.virtual_parse_stack;
-import ru.mipt.cs.easypiano.graphics.videolesson.video.*;
-import ru.mipt.cs.easypiano.graphics.videolesson.video.Canvas;
-
 //IVAN
 public class Croissant{
     private int note;
@@ -84,7 +80,7 @@ public class Croissant{
             start();
             flag1 = 0;
         }
-        if (y < (VideoConstants.CANVAS_MINI_HEIGHT + duration/VideoConstants.CANVAS_CROISSANT_SPEED) && (delta >= startTick) ) {
+        if (y < (Canvas.CANVAS_MINI_HEIGHT + duration/VideoConstants.CANVAS_CROISSANT_SPEED) && (delta >= startTick) ) {
             if (sizeY < sizeYMax){
                 sizeY++;
                 y--;
@@ -99,15 +95,15 @@ public class Croissant{
         }
         if (color){
             g.setColor(Color.BLUE);
-            g.drawRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, sizeY, 10, 10);
+            g.drawRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH - 1, sizeY, 10, 10);
             g.setColor(Color.WHITE);
-            g.fillRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH, sizeY, 10, 10);
+            g.fillRoundRect(x, y, VideoConstants.CANVAS_WHITE_KEY_WIDTH - 1, sizeY, 10, 10);
         }
         else{
             g.setColor(Color.BLUE);
-            g.drawRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH ,sizeY, 10, 10);
+            g.drawRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH - 1,sizeY, 10, 10);
             g.setColor(Color.BLACK);
-            g.fillRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH ,sizeY, 10, 10);
+            g.fillRoundRect(x, y, VideoConstants.CANVAS_BLACK_KEY_WIDTH - 1,sizeY, 10, 10);
         }
 
     }

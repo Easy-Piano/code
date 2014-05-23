@@ -1,14 +1,9 @@
 package ru.mipt.cs.easypiano.test.sasha;
 //SASHA
 
-import ru.mipt.cs.easypiano.recognition.aggregation.frommidi.NotesExtractor;
-import ru.mipt.cs.easypiano.recognition.aggregation.frommidi.VideoUtils;
 import ru.mipt.cs.easypiano.recognition.analysis.MonoRecognizer;
-import ru.mipt.cs.easypiano.recognition.analysis.Notes;
 import ru.mipt.cs.easypiano.recognition.analysis.PoliRecognizer;
-import ru.mipt.cs.easypiano.recognition.analysis.strategies.WindowHamming;
 import ru.mipt.cs.easypiano.recognition.analysis.strategies.WindowHanna;
-import ru.mipt.cs.easypiano.sound.MidiPlayer;
 
 import javax.sound.midi.*;
 import java.io.File;

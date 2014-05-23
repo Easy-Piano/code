@@ -1,8 +1,8 @@
 package ru.mipt.cs.easypiano.graphics.visualisation;
 
-import ru.mipt.cs.easypiano.graphics.videolesson.VideoFrame;
-import ru.mipt.cs.easypiano.graphics.videolesson.video.extention.FileNameUtils;
+import ru.mipt.cs.easypiano.graphics.videolesson.FileNameUtils;
 import ru.mipt.cs.easypiano.graphics.visualisation.exeptionFrames.ErrorFrame;
+import ru.mipt.cs.easypiano.main.ExerciseFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +42,7 @@ public class StartFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if (nameOfFile != null){
                     if (typeOfFile.equals("mid")){
-                        VideoFrame videoFrame = new VideoFrame(nameOfFile);
+                        ExerciseFrame videoFrame = new ExerciseFrame(nameOfFile);
                         videoFrame.setVisible(true);
                     }
                     else{

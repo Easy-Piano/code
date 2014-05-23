@@ -1,8 +1,9 @@
-package ru.mipt.cs.easypiano.graphics.videolesson.video;
+package ru.mipt.cs.easypiano.graphics.videolesson;
 
 // Ivan
 
-import ru.mipt.cs.easypiano.graphics.videolesson.Croissant;
+import ru.mipt.cs.easypiano.piano.Constants;
+import ru.mipt.cs.easypiano.piano.Piano;
 import ru.mipt.cs.easypiano.recognition.aggregation.frommidi.NotesExtractor;
 
 import javax.swing.*;
@@ -10,20 +11,22 @@ import java.awt.*;
 import java.util.Vector;
 
 public class Canvas extends JPanel implements Runnable{
+    // Video
+    public static final int CANVAS_MINI_HEIGHT = 400;
     private long lastTime = System.currentTimeMillis();
     private long delta;
     private Vector croissants;
     private int width;
     private int height;
     private String nameOfFile;
-    public Canvas (String fileName){
+    public Canvas (String fileName, Piano piano){
         nameOfFile=fileName;
         //layouting
         nameOfFile=fileName;
-        this.width = VideoConstants.CANVAS_MINI_WIDTH;
-        this.height = VideoConstants.CANVAS_MINI_HEIGHT;
+        this.width = piano.getWidth();
+        this.height = CANVAS_MINI_HEIGHT;
         setPreferredSize(new Dimension(width, height));
-        setBackground(Color.GRAY);
+        setBackground(Constants.PIANO_BACKGROUND_COLOR);
 
         // Take all information about notes in midi file
         croissants = new Vector();

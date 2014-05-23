@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.graphics.videolesson.video.extention;
+package ru.mipt.cs.easypiano.graphics.videolesson;
 
 /**
  * Created by Asus on 19.05.14.

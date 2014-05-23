@@ -3,13 +3,13 @@ package ru.mipt.cs.easypiano.sound;
 /**
  * Created by 1 on 27.04.2014.
  */
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MidiPlayer {
 
@@ -42,6 +42,20 @@ public class MidiPlayer {
         }
         for (int note : notes) {
             channels[channel].noteOff(note);
+        }
+    }
+    public void playSound(int n,Vector notes,Vector times){
+        int size = notes.size();
+        for (int i=0; i<size; i++) {
+            if (((long)(times.get(i)))!=-1){
+                playSound(n,(int) (long) (times.get(i)) , 80, (int)(notes.get(i)));
+            }else{
+                try {
+                    Thread.sleep((int)(long) (times.get(i)));
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MidiPlayer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
     public void playSound(Vector notes,Vector times){

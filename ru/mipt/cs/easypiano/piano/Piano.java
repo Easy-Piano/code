@@ -5,7 +5,6 @@ package ru.mipt.cs.easypiano.piano;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,22 +13,26 @@ public class Piano extends JPanel {
     protected List<PianoKey> pianoKeys;
 	private Pedal pedal;
     protected List<Control> controlList;
-    public KeyAdapter adapter;
+    //public KeyAdapter adapter;
 
-	private int width;
+    public int getWidth() {
+        return width;
+    }
+
+    private int width;
 	private int basePitch = Constants.DEFAULT_BASE_PITCH;
 	
 	public Piano() {
         this.controlList = new ArrayList<Control>();
 		createKeys();		
 		createPedal();
-        this.adapter = new KeyboardAdapter(this);
+        //this.adapter = new KeyboardAdapter(this);
 		// width already assigned in createKeys()
         int height = Constants.KEY_FRAME_HEIGHT + Constants.PEDAL_PADDING +
                 Constants.PEDAL_HEIGHT;
 		setPreferredSize(new Dimension(width, height));
 		setFocusable(true);
-        addKeyListener(adapter);
+        //this.addKeyListener(adapter);
 	}
 
 	// Create the piano keys, initializes them, registers listeners. Also populates width.

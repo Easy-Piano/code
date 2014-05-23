@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeyboardAdapter extends KeyAdapter {
+public class KeyboardControl extends Control {
 
     private Map<Integer, Integer> keyMap;
     protected Piano piano;
@@ -49,10 +49,11 @@ public class KeyboardAdapter extends KeyAdapter {
     public static final int NOTE_34 = KeyEvent.VK_BACK_SPACE;
     public static final int NOTE_35 = KeyEvent.VK_BACK_SLASH;
 
-    public KeyboardAdapter(Piano piano) {
+    public KeyboardControl(Piano piano) {
         this.piano = piano;
         initKeyMap();
         changeKeyMap(12);
+        piano.addKeyListener(new PianoViewKeyListener());
     }
 
     private void initKeyMap() {
@@ -148,14 +149,17 @@ public class KeyboardAdapter extends KeyAdapter {
         }
     }
 
+    @Override
     public int getNote(int keyCode) {
         return keyMap.get(keyCode);
     }
 
+    @Override
     public boolean isNote(int keyCode) {
         return keyMap.containsKey(keyCode);
     }
 
+    @Override
     public void pianoKeyPressed(int keyCode) {
         if (keyCode == Constants.PEDAL_KEY) {
             piano.setPedalState(true);
@@ -180,7 +184,7 @@ public class KeyboardAdapter extends KeyAdapter {
         }
     }
 
-
+    @Override
     public void pianoKeyReleased(int keyCode) {
         if (keyCode == Constants.PEDAL_KEY) {
             piano.setPedalState(false);
@@ -189,19 +193,15 @@ public class KeyboardAdapter extends KeyAdapter {
         }
     }
 
+    private class PianoViewKeyListener extends KeyAdapter {
         @Override
-        public synchronized void keyPressed(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            pianoKeyPressed(keyCode);
-            //System.out.println("pressed");
+        public void keyPressed(KeyEvent e) {
+            pianoKeyPressed(e.getKeyCode());
         }
 
-
         @Override
-        public synchronized void keyReleased(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            pianoKeyReleased(keyCode);
-            //System.out.println("released");
+        public void keyReleased(KeyEvent e) {
+            pianoKeyReleased(e.getKeyCode());
         }
-
+    }
 }

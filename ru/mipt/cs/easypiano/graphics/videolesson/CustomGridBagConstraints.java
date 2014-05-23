@@ -1,4 +1,4 @@
-package ru.mipt.cs.easypiano.graphics.videolesson.video.util;
+package ru.mipt.cs.easypiano.graphics.videolesson;
 
 import java.awt.*;
 
