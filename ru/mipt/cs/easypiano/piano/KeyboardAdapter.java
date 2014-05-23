@@ -7,10 +7,10 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeyboardControl extends Control {
+public class KeyboardAdapter extends KeyAdapter {
 
     private Map<Integer, Integer> keyMap;
-    private Piano piano;
+    protected Piano piano;
 
     public static final int NOTE_0 = KeyEvent.VK_Z;
     public static final int NOTE_1 = KeyEvent.VK_S;
@@ -49,10 +49,10 @@ public class KeyboardControl extends Control {
     public static final int NOTE_34 = KeyEvent.VK_BACK_SPACE;
     public static final int NOTE_35 = KeyEvent.VK_BACK_SLASH;
 
-    public KeyboardControl(Piano piano) {
+    public KeyboardAdapter(Piano piano) {
         this.piano = piano;
         initKeyMap();
-        this.piano.addKeyListener(new PianoViewKeyListener());
+        changeKeyMap(12);
     }
 
     private void initKeyMap() {
@@ -148,53 +148,60 @@ public class KeyboardControl extends Control {
         }
     }
 
-    @Override
     public int getNote(int keyCode) {
         return keyMap.get(keyCode);
     }
 
-    @Override
     public boolean isNote(int keyCode) {
         return keyMap.containsKey(keyCode);
     }
 
-    private class PianoViewKeyListener extends KeyAdapter {
-        @Override
-        public void keyPressed(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-
-            if (keyCode == Constants.PEDAL_KEY) {
-                piano.setPedalState(true);
-            } else if (keyCode == KeyEvent.VK_LEFT) { // instrument --
-                MidiManager.getInstance().decSynthInstrument();
-                piano.repaint();
-            } else if (keyCode == KeyEvent.VK_RIGHT) { // instrument ++
-                MidiManager.getInstance().incSynthInstrument();
-                piano.repaint();
-            } else if (keyCode == Constants.INC_OCTAVE) { // octave ++
-                piano.reset();
-                incOctave();
-            } else if (keyCode == Constants.DEC_OCTAVE) { // octave --
-                piano.reset();
-                decOctave();
-            } else if (keyCode == KeyEvent.VK_ENTER) { // reset
-                piano.reset();
-                piano.repaint();
-            } else {
-                if (keyMap.containsKey(keyCode))
-                    piano.setKeyState(keyMap.get(keyCode), true);
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            int keyCode = e.getKeyCode();
-            if (keyCode == Constants.PEDAL_KEY) {
-                piano.setPedalState(false);
-            } else {
-                if (keyMap.containsKey(keyCode)) piano.setKeyState(keyMap.get(keyCode), false);
-            }
+    public void pianoKeyPressed(int keyCode) {
+        if (keyCode == Constants.PEDAL_KEY) {
+            piano.setPedalState(true);
+        } else if (keyCode == KeyEvent.VK_LEFT) { // instrument --
+            MidiManager.getInstance().decSynthInstrument();
+            piano.repaint();
+        } else if (keyCode == KeyEvent.VK_RIGHT) { // instrument ++
+            MidiManager.getInstance().incSynthInstrument();
+            piano.repaint();
+        } else if (keyCode == Constants.INC_OCTAVE) { // octave ++
+            piano.reset();
+            incOctave();
+        } else if (keyCode == Constants.DEC_OCTAVE) { // octave --
+            piano.reset();
+            decOctave();
+        } else if (keyCode == KeyEvent.VK_ENTER) { // reset
+            piano.reset();
+            piano.repaint();
+        } else {
+            if (keyMap.containsKey(keyCode))
+                piano.setKeyState(keyMap.get(keyCode), true);
         }
     }
+
+
+    public void pianoKeyReleased(int keyCode) {
+        if (keyCode == Constants.PEDAL_KEY) {
+            piano.setPedalState(false);
+        } else {
+            if (keyMap.containsKey(keyCode)) piano.setKeyState(keyMap.get(keyCode), false);
+        }
+    }
+
+        @Override
+        public synchronized void keyPressed(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            pianoKeyPressed(keyCode);
+            System.out.println("pressed");
+        }
+
+
+        @Override
+        public synchronized void keyReleased(KeyEvent e) {
+            int keyCode = e.getKeyCode();
+            pianoKeyReleased(keyCode);
+            System.out.println("released");
+        }
 
 }

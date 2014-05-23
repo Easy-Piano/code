@@ -49,6 +49,18 @@ public class MouseControl extends Control {
         return false;
     }
 
+    @Override
+    public void pianoKeyPressed(int keyCode) {
+        if (keyCode != KEY_NOT_FOUND)
+            piano.setKeyState(keyCode,true);
+    }
+
+    @Override
+    public void pianoKeyReleased(int keyCode) {
+        if (keyCode != KEY_NOT_FOUND)
+            piano.setKeyState(keyCode, false);
+    }
+
     private class PianoMouseMotionListener extends MouseMotionAdapter {
         @Override
         public void mouseMoved(MouseEvent e) {
@@ -65,7 +77,7 @@ public class MouseControl extends Control {
     private void setCurrentHovered(int index) {
         if (currentHovered != index && currentHovered != KEY_NOT_FOUND) {
             // force release the previous hovered key
-            piano.setKeyState(currentHovered,false);
+            piano.setKeyState(currentHovered, false);
         }
         currentHovered = index;
     }
@@ -75,16 +87,14 @@ public class MouseControl extends Control {
     private class PianoMouseListener extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
-            int hovered = getHoveredKeyIndex(e.getPoint());
-            if (hovered != KEY_NOT_FOUND)
-                piano.setKeyState(hovered,true);
+            pianoKeyPressed(getHoveredKeyIndex(e.getPoint()));
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            int hovered = getHoveredKeyIndex(e.getPoint());
-            if (hovered != KEY_NOT_FOUND)
-                piano.setKeyState(hovered,false);
+            pianoKeyReleased(getHoveredKeyIndex(e.getPoint()));
         }
     }
+
+
 }

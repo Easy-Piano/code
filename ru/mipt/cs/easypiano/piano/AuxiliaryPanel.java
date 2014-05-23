@@ -24,8 +24,10 @@ public class AuxiliaryPanel extends JPanel {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserInputAnalyser analyser;
-                analyser = new UserInputAnalyser(piano, 0, piano.controlList.get(0));
+                UserInputAnalyser analyser = new UserInputAnalyser(100000, piano);
+                System.out.println("new thread");
+                new Thread(analyser).start();
+                //analyser.run();
             }
         });
     }

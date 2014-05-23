@@ -15,9 +15,7 @@ public class MainFrame extends JFrame {
 		contentPanel.setLayout(new GridBagLayout());
 
         Piano piano = new Piano();
-        Control keyboardControl= new KeyboardControl(piano);
         Control mouseControl = new MouseControl(piano);
-        piano.addControl(keyboardControl);
         piano.addControl(mouseControl);
         format.gridx = 0;
         format.gridy = 1;
