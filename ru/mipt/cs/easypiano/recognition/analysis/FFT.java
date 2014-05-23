@@ -1,6 +1,9 @@
 package ru.mipt.cs.easypiano.recognition.analysis;
 //SASHA
+import ru.mipt.cs.easypiano.graphics.visualisation.Visualizer;
+import ru.mipt.cs.easypiano.test.sasha.SashaMain;
 
+import java.util.Vector;
 
 /**
  * Created by 1 on 25.04.2014.

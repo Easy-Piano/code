@@ -1,6 +1,10 @@
 package ru.mipt.cs.easypiano.recognition.analysis;
 //SASHA
+import ru.mipt.cs.easypiano.graphics.visualisation.FourierVisualizer;
+import ru.mipt.cs.easypiano.graphics.visualisation.SignalVisualizer;
 import ru.mipt.cs.easypiano.recognition.aggregation.WavWrapper;
+import ru.mipt.cs.easypiano.recognition.aggregation.frommidi.NotesExtractor;
+import ru.mipt.cs.easypiano.recognition.analysis.strategies.EmptyWindow;
 import ru.mipt.cs.easypiano.recognition.analysis.strategies.Window;
 import ru.mipt.cs.easypiano.recognition.analysis.strategies.WindowHamming;
 import ru.mipt.cs.easypiano.recognition.analysis.strategies.WindowHanna;
@@ -22,40 +26,39 @@ import java.util.Vector;
 public class MonoRecognizer extends Recognizer  {
     private static int SIZE=1000000;//will be changed in method according to sound file length
     private final static double THRESHOLD=0.6d;
-    private final static double FILE_THRESHOLD=0.8d;
+    private final static double FILE_THRESHOLD=0.9d;
     private final static int OFFSET=0;
     private final static int STEP=1000;
     private final static int MIN_LENGTH_IN_minDuration=14;
-    private WavWrapper WW;
-    private Window window;
+    //private Window window;
     private int currentNote;
     public int strength;
     private Observer observer;
     public MonoRecognizer(){
-        window = new WindowHanna();
+        super();
     }
     public MonoRecognizer(WindowHamming WH){
-        window = WH;
+        super(WH);
     }
     public MonoRecognizer(WindowHanna WH){
-        window = WH;
+        super(WH);
     }
-    /*public double[] setNuisance(){
+    public double[] setNuisance(){
         double[] nuisance = new double[Recognizer.FOURIER_N/2];
         String s = Notes.notePath+"noise"+".wav";
         WW=new WavWrapper(s);
         double sampleRate = WW.getSampleRate();
         SIZE = (int) WW.getSize();
         double[] wholeSignal = WW.getArray(0,0,SIZE);
-        int n = SIZE-FOURIER_N;
+        int n = SIZE-2*FOURIER_N;
         double[] signal = new double[FOURIER_N];
         int attempts=0;
         while (attempts<Notes.GAUGES){
-            int i=(int) (Math.random()*(double) n);
+            int i=(int) (Math.random()*(double) n)+FOURIER_N;
             for (int j=0; j<FOURIER_N; j++){
                 signal[j]=wholeSignal[i+j];
             }
-            windowHanna(signal);
+            window.smoothen(signal);
             double[] spectrum = FFT.getSpectrum(signal);
             if (spectrum[getMaxNums(spectrum)[0]]>0.01d) {
                 System.out.println("attempts#"+attempts);
@@ -68,8 +71,8 @@ public class MonoRecognizer extends Recognizer  {
         for (int j=0; j<FOURIER_N/2; j++){
             nuisance[j]/=Notes.GAUGES;
         }
-        return nuisance;
-    }*/
+        return Notes.getInstance().spectrumToHarmonics(nuisance,sampleRate);
+    }
     public void fillNotesSpectrum(int noteNumber){//is called from Notes initialize()
         String s = Notes.notePath+"note"+((Integer)noteNumber).toString()+".wav";
         WW=new WavWrapper(s);
@@ -85,12 +88,53 @@ public class MonoRecognizer extends Recognizer  {
                 signal[j]=wholeSignal[i+j];
             }
             window.smoothen(signal);
-            //windowHanna(signal);
             double[] spectrum = FFT.getSpectrum(signal);
             if (spectrum[getMaxNums(spectrum)[0]]>FILE_THRESHOLD) {
+                /*if (mag<0.8) {
+                    System.out.println("oops, note "+noteNumber);
+                    continue;
+                }*/
+                //Notes.getInstance().updateRelaxationTime(noteNumber,time);
                 Notes.getInstance().updateSpectrum(noteNumber, spectrum, sampleRate);
                 attempts++;
             }
+            /*int mn=getMaxNum(signal,0,signal.length-1);
+            double max=signal[mn];
+            Vector v;
+            double time;
+            v = convertSignal(signal);
+            //double mag = signal[getMaxNums(signal)[0]];
+            int j;
+            if (mn<(FOURIER_N/4)) {//////////////////////now wraps taking note too
+                int  count=0;
+                System.out.println("hi");
+                System.out.println("mn = "+mn);
+                while((int)(v.get(count))!=mn){
+                    System.out.println(v.get(count));
+                    count++;
+                }
+                System.out.println("bye");
+                count++;
+                for ( j=count; j<v.size(); j++){
+                    if (max>2*signal[(int) v.get(j)]){
+                        break;
+                    }
+                }
+                for (int k=0; k<signal.length; k++){
+                    System.out.println(k+" "+signal[k]);
+                }
+                System.out.println("j= "+j);
+                if (j==v.size()-1){
+                    //System.out.println("window is too short");
+                }else{
+                    //System.out.println("hey! time is"+time);
+                    System.out.println("hey! j-mn is "+((int)v.get(j)-mn));
+                }
+                time=1000d*((double)(j-mn))/sampleRate;
+                //for (int i=mn; i<FOURIER_N-)
+
+                }
+            }*/
         }
         Notes.getInstance().rationalizeSpectrum(noteNumber);
     }
@@ -117,6 +161,51 @@ public class MonoRecognizer extends Recognizer  {
                 FV.visualize(spectrum, (long) sampleRate);*/
                 currentNote = Notes.getInstance().dissectNote(spectrum,sampleRate);
                 notifyObservers();
+            }
+        }
+    }
+    public void pseudoParallelRecognition(int n){//n is number of parallels, n=2^m, 2^n<FOURIER_N
+        try{
+            if ((Math.pow(2d,(double)n)>FOURIER_N)||(n<1)) throw new Exception();
+        } catch (Exception e) {
+            System.out.println("wrong parameters");
+            e.printStackTrace();
+        }
+        double[] signal;
+        double[] spectrum;
+        currentNote=-1;
+        byte[][] bytes = new byte[n][2*FOURIER_N/n];
+        Recording rec = new Recording();
+        observer=new Note();
+        AudioInputStream stream = rec.getStream();
+        double sampleRate = rec.getSampleRate();
+        rec.mikeStart();
+        for (int i=0; i<n; i++){
+            fillBytes(bytes[i],stream);
+        }
+        //int k=0;
+        //SignalVisualizer SV = new SignalVisualizer();
+        while (true) {
+            for (int i=0; i<n; i++){
+                signal = getSignal(i,n,bytes);
+                /*if (k<50){
+                    SV.visualize(signal,44100);
+                    k++;
+                }*/
+                if (getMaxNums(signal)[0]<0.3) continue;
+                window.smoothen(signal);
+                spectrum = FFT.getSpectrum(signal);
+                if (spectrum[getMaxNums(spectrum)[0]]>THRESHOLD) {
+                    //currentNote = Notes.getInstance().dissectNote(spectrum, sampleRate);
+                    int[] array = Notes.getInstance().dissectNote(spectrum, sampleRate,36,96);
+                    currentNote = array[0];
+                    for (int m=0; m<array.length; m++){
+                        System.out.print(array[m]+" ");
+                    }
+                    System.out.println();
+                    notifyObservers();
+                }
+               fillBytes(bytes[i],stream);
             }
         }
     }
@@ -182,30 +271,16 @@ public class MonoRecognizer extends Recognizer  {
         //windowHamming(signal);
         return FFT.getSpectrum(signal);
     }
-    private void getSignal(AudioInputStream stream ,byte[] bytes,double[] signal) {
-        try {
-            for (int i = 0; i < 4; i++) {
-                stream.read(bytes);
-                bytesToIntArray(bytes, signal, i * FOURIER_N/ 4,FOURIER_N / 4);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    protected int[][] notesInit(int attempts,long sampleRate){
+        int notes[][] = new int[attempts+1][3];
+        int minDuration = (int) ((long)(STEP*1000)/sampleRate);
+        for (int i=0; i<attempts+1; i++){
+            notes[i][0]= minDuration; //how long to play
+            notes[i][1]= -1;//to play or not to play, and note number if to play
+            notes[i][2]= 80;//volume
         }
+        return notes;
     }
-    /*private void windowHamming(double[] signal){
-        int n=FOURIER_N;
-        double ppi=2*Math.PI;
-        for (int i=0; i<n; i++){
-            signal[i]*=(0.53836d-0.46164d*Math.cos(ppi*(double)i/(double)(n-1)));
-        }
-    }
-    private void windowHanna(double[] signal){
-        int n=FOURIER_N;
-        double ppi=2*Math.PI;
-        for (int i=0; i<n; i++){
-            signal[i]*=(1d-(Math.cos(ppi*(double)i/(double)(n-1))))/2d;
-        }
-    }*/
     private int analyseNote(double[] spec, double sampleRate){//doesn't have correct implementation yet
         int[] maxnums = getMaxNums(spec);
         int note;
@@ -227,16 +302,6 @@ public class MonoRecognizer extends Recognizer  {
     }
     public void notifyObservers(){
         observer.update(this,currentNote);
-    }
-    private int[][] notesInit(int attempts,long sampleRate){
-        int notes[][] = new int[attempts+1][3];
-        int minDuration = (int) ((long)(STEP*1000)/sampleRate);
-        for (int i=0; i<attempts+1; i++){
-            notes[i][0]= minDuration; //how long to play
-            notes[i][1]= -1;//to play or not to play, and note number if to play
-            notes[i][2]= 80;//volume
-        }
-        return notes;
     }
     private void fillNotesArray(double[] signal, int[][] notes){
         double[] spectrum;
@@ -314,7 +379,7 @@ public class MonoRecognizer extends Recognizer  {
                     bufNote=currentNote;
                     time = bufTime;
                     bufTime=System.currentTimeMillis();
-                    //System.out.println(bufTime-time);
+                    System.out.println(bufTime-time);
                     vecTime.add(bufTime-time);
                     vecNotes.add(currentNote);
                 }
@@ -334,48 +399,75 @@ public class MonoRecognizer extends Recognizer  {
         for (int i=0; i<vecTime.size(); i++){
             System.out.println("time "+(long) (vecTime.get(i))+" note "+(int)(vecNotes.get(i)));
         }
-        MP.playSound(vecNotes,vecTime);
+        MP.playSound(0,vecNotes,vecTime);
     }
-    public void listenAndCompare(int maxTimeSec){//in order not to spoil what is currently working
+    public void pseudoParalleListenAndPlay(int maxTimeSec, int n){
+        try{
+            if ((Math.pow(2d,(double)n)>FOURIER_N)||(n<1)) throw new Exception();
+        } catch (Exception e) {
+            System.out.println("wrong parameters");
+            e.printStackTrace();
+        }
         long maxTimeMiliSec = (long) maxTimeSec*1000;
         long startTime;
         long bufTime = System.currentTimeMillis();
         startTime = bufTime;
         long time;
-        double[] signal = new double[FOURIER_N];
+        double[] signal;
         double[] spectrum;
         currentNote=-1;
         int bufNote=-1;
-        byte[] bytes = new byte[FOURIER_N/2];//////////////////////////////////////////changed to /2
+        byte[][] bytes = new byte[n][2*FOURIER_N/n];
         Recording rec = new Recording();
         Vector vecNotes = new Vector();
         Vector vecTime = new Vector();
-        //observer=new Note();
         AudioInputStream stream = rec.getStream();
         double sampleRate = rec.getSampleRate();
         rec.mikeStart();
+        for (int i=0; i<n; i++){
+            fillBytes(bytes[i],stream);
+        }
         while ((System.currentTimeMillis()-startTime<maxTimeMiliSec)) {
-            spectrum = analyzeSignal(stream,bytes,signal);
-            if (spectrum[getMaxNums(spectrum)[0]]>THRESHOLD){
-                currentNote = Notes.getInstance().dissectNote(spectrum,sampleRate);
-                //notifyObservers();
-                if (bufNote!=currentNote){
-                    bufNote=currentNote;
-                    time = bufTime;
-                    bufTime=System.currentTimeMillis();
-                    System.out.println(bufTime-time);
-                    vecTime.add(bufTime-time);
-                    vecNotes.add(currentNote);
+            for (int i=0; i<n; i++){
+                signal = getSignal(i,n,bytes);
+                if (getMaxNums(signal)[0]<0.8) continue;
+                window.smoothen(signal);
+                spectrum = FFT.getSpectrum(signal);
+                if (spectrum[getMaxNums(spectrum)[0]]>THRESHOLD){
+                    currentNote = Notes.getInstance().dissectNote(spectrum,sampleRate,67,75)[0];
+                    //currentNote = Notes.getInstance().dissectNote(spectrum,sampleRate);
+                    if (bufNote!=currentNote){
+                        bufNote=currentNote;
+                        time = bufTime;
+                        bufTime=System.currentTimeMillis();
+                        System.out.println(bufTime-time);
+                        vecTime.add(bufTime-time);
+                        vecNotes.add(currentNote);
+                    }
+                }else{
+                    currentNote = -1;
+                    if (bufNote!=currentNote){
+                        bufNote=currentNote;
+                        time = bufTime;
+                        bufTime=System.currentTimeMillis();
+                        System.out.println(bufTime-time);
+                        vecTime.add(bufTime-time);
+                        vecNotes.add(currentNote);
+                    }
                 }
-            }else{
-                currentNote = -1;
-                if (bufNote!=currentNote){
-                    bufNote=currentNote;
-                    time = bufTime;
-                    bufTime=System.currentTimeMillis();
-                    System.out.println(bufTime-time);
-                    vecTime.add(bufTime-time);
-                    vecNotes.add(currentNote);
+                fillBytes(bytes[i],stream);
+            }
+        }
+        for (int i=0; i<vecTime.size(); i++){
+            if (((long) vecTime.get(i))<35){
+                long bt = (long) vecTime.get(i);
+                vecNotes.removeElementAt(i);
+                vecTime.removeElementAt(i);
+                if (i>1) {
+                    bt+=(long) vecTime.get(i-1);
+                    vecTime.removeElementAt(i-1);
+                    vecTime.insertElementAt(bt, i - 1);
+                    i--;
                 }
             }
         }
@@ -383,6 +475,65 @@ public class MonoRecognizer extends Recognizer  {
         for (int i=0; i<vecTime.size(); i++){
             System.out.println("time "+(long) (vecTime.get(i))+" note "+(int)(vecNotes.get(i)));
         }
-        MP.playSound(vecNotes,vecTime);
+        MP.playSound(0,vecNotes,vecTime);
+    }
+    public void useOfAmplitude(){
+
+    }
+    public void listenAndCompare(String s, int n, double speed) {//in order not to spoil what is currently working
+        NotesExtractor NE = new NotesExtractor(s);
+        Vector notes = NE.getNotes();
+        Vector startTimes1 = NE.getStartTimes();
+        Vector durations = NE.getDurations();
+        Vector startTimes = new Vector();
+        int size = startTimes1.size();
+        for (int i=0; i<size; i++){
+            startTimes.add((long)(speed*(double)(long)startTimes1.get(i)));
+        }
+        try{
+            if ((Math.pow(2d,(double)n)>FOURIER_N)||(n<1)) throw new Exception();
+        } catch (Exception e) {
+            System.out.println("wrong parameters");
+            e.printStackTrace();
+        }
+        double[] signal;
+        double[] spectrum;
+        currentNote=-1;
+        byte[][] bytes = new byte[n][2*FOURIER_N/n];
+        Recording rec = new Recording();
+        observer=new Note();
+        AudioInputStream stream = rec.getStream();
+        double sampleRate = rec.getSampleRate();
+        rec.mikeStart();
+        for (int i=0; i<n; i++){
+            fillBytes(bytes[i],stream);
+        }
+        long iteration = 0;
+        long maxIteration = (long) ((double) n*(sampleRate/(double) FOURIER_N)*(double)((long)startTimes.get(size-1)+(long)durations.get(size-1)));
+        //int k=0;
+        //SignalVisualizer SV = new SignalVisualizer();
+        while (iteration<maxIteration) {
+            for (int i=0; i<n; i++){
+                signal = getSignal(i,n,bytes);
+                /*if (k<50){
+                    SV.visualize(signal,44100);
+                    k++;
+                }*/
+                if (getMaxNums(signal)[0]<0.3) continue;
+                window.smoothen(signal);
+                spectrum = FFT.getSpectrum(signal);
+                if (spectrum[getMaxNums(spectrum)[0]]>THRESHOLD) {
+                    //currentNote = Notes.getInstance().dissectNote(spectrum, sampleRate);
+                    int[] array = Notes.getInstance().dissectNote(spectrum, sampleRate,36,96);
+                    currentNote = array[0];
+                    for (int m=0; m<array.length; m++){
+                        System.out.print(array[m]+" ");
+                    }
+                    System.out.println();
+                    notifyObservers();
+                }
+                fillBytes(bytes[i],stream);
+            }
+        }
     }
 }

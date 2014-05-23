@@ -11,10 +11,11 @@ import java.io.*;
 public class Notes implements Serializable{//is also a Singleton
     //and trivial neuronet was implemented inside
     public final static String notePath = Notes.class.getClassLoader().getResource("//").getPath()+
-            "ru\\mipt\\cs\\easypiano\\resources\\notes\\";
+            "ru\\mipt\\cs\\easypiano\\resourses\\notes\\";
     private final static String saveName = Notes.class.getClassLoader().getResource("//").getPath()+
-            "ru\\mipt\\cs\\easypiano\\resources\\" + "serialized.out";
+            "ru\\mipt\\cs\\easypiano\\resourses\\" +"serialized.out";
     protected static boolean wasInitialized = false;
+    public static double CMP_NOTE = 0.7;
     protected static volatile Notes instance;
     public static final int GAUGES=200;//how many experiments to carry out in order to calibrate from .wav file
     private double [] frequencies;//an array of NOTES_QUANTITY notes' frequencies
@@ -22,17 +23,24 @@ public class Notes implements Serializable{//is also a Singleton
     //public static final int HARMONICS_QUANTITY = 132; is redundant because depends on FOURIER_N and is not good when big
     //public static final int HARMONICS_QUANTITY = 88;
     //public static final int MIDI_NOTES_QUANTITY = 132;
-    public static double[] nuisance;
     public static final int V_PIANO_OFFSET = 15;//distinction of virtual piano from acoustic piano
     public static final int MIDI_OFFSET = 21;//as a virtual piano, for an acoustic piano it should be 20
     public static final int FIRST_NOTE = V_PIANO_OFFSET+MIDI_OFFSET;
     public static final int LAST_NOTE = FIRST_NOTE+NOTES_QUANTITY-1;
     //private double[][] specArrays;//an arraay of whole average specrtums (size FOURIER_N/2 because is's symmetrcic)
+    private double[] nuisance;
+    private double[] relaxationTimes;
     private double[][] array;//an array of harmonic spectrums of NOTES_QUANTITY notes
+    private double[][][] chords2;//chords2[i][j] is a normalized specturm of note i and note j together
+    private double[][][][] chords3;
     //everywhere noteNumber is in MIDI notation
     protected void initialize() {//if was not initialized before
         frequencies=new double[NOTES_QUANTITY];//array of frequencies from FIRST_NOTE to LAST_NOTE
         array=new double[NOTES_QUANTITY][NOTES_QUANTITY];//x is note number, y is note number spectrum
+        chords2 = new double[NOTES_QUANTITY][NOTES_QUANTITY][NOTES_QUANTITY];
+        chords3 = new double[NOTES_QUANTITY][NOTES_QUANTITY][NOTES_QUANTITY][NOTES_QUANTITY];
+        nuisance = new double[NOTES_QUANTITY];
+        relaxationTimes = new double[NOTES_QUANTITY];
         //specArrays=new double[NOTES_QUANTITY][Recognizer.FOURIER_N/2];
         for (int i=0;i<NOTES_QUANTITY;i++){
             frequencies[i]=27.5*Math.pow(2d,(double)(i+V_PIANO_OFFSET) / 12d);
@@ -41,16 +49,51 @@ public class Notes implements Serializable{//is also a Singleton
             System.out.println("i= "+i+" fr[i]= "+frequencies[i]+ " note is "+ getNoteNumber(frequencies[i]));
         }*/
         MonoRecognizer MR = new MonoRecognizer();
-        //nuisance = MR.setNuisance();
+        nuisance=MR.setNuisance();
         for (int i=0; i<NOTES_QUANTITY; i++) {
             MR.fillNotesSpectrum(i+FIRST_NOTE);
         }//can't be replaced into constructor
+
+        //rationalizeArray(nuisance);
+        for (int i=0; i<NOTES_QUANTITY; i++){
+            for (int j=0; j<NOTES_QUANTITY; j++){
+                for (int k=0; k<NOTES_QUANTITY; k++){
+                    /*double buf = array[i][k]+array[j][k]-nuisance[k];
+                    chords2[i][j][k]=(buf>0)?buf:0;*/
+                    double buf = array[i][k]+array[j][k];
+                    chords2[i][j][k]=buf;
+                }
+                rationalizeArray(chords2[i][j]);
+            }
+        }
+        for (int i=0; i<NOTES_QUANTITY; i++){
+            for (int j=0; j<NOTES_QUANTITY; j++){
+                for (int k=0; k<NOTES_QUANTITY; k++){
+                    for (int t=0; t<NOTES_QUANTITY; t++){
+                        chords3[i][j][k][t]=array[i][t]+array[j][t]+array[k][t];
+                    }
+                    rationalizeArray(chords3[i][j][k]);
+                }
+            }
+        }
         wasInitialized = true;
         try {
             save();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void updateRelaxationTime(int noteNumber, double time){
+        int a=noteNumber-FIRST_NOTE;
+        System.out.println("just time is "+relaxationTimes);
+        if (relaxationTimes[a]==0) {
+            relaxationTimes[a]=time;
+        }else{
+            relaxationTimes[a]+=time;
+            relaxationTimes[a]/=2;
+        }
+        System.out.println("rel time is "+relaxationTimes);
+
     }
     /*private void killNuisance(double[] array){
         int n=Recognizer.FOURIER_N/2;
@@ -135,9 +178,12 @@ public class Notes implements Serializable{//is also a Singleton
                 wasInitialized=true;//just in case
                 return notes;
             }else {//just in case
-                return (Notes) (new ObjectInputStream(new FileInputStream(saveName))).readObject();
+                Notes notes = (Notes) (new ObjectInputStream(new FileInputStream(saveName))).readObject();
+                return notes;
             }
         }catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,24 +198,71 @@ public class Notes implements Serializable{//is also a Singleton
         return s;
     }
     public int dissectNote(double[] spec, double sampleRate) {//returns most corresponding noteNumber in MIDI notation
-        //killNuisance(spec);
         double[] linArray = spectrumToHarmonics(spec, sampleRate);
-        /*NotesSpecVisualizer NSV = new NotesSpecVisualizer();
-        NSV.visualize(linArray,0);*/
         double[] dotArray = new double[NOTES_QUANTITY];
         for (int i = 0; i < NOTES_QUANTITY; i++) {
             dotArray[i] = dotProduct(linArray, array[i], NOTES_QUANTITY);
         }
-        /*double[] myDotArray = new double[NOTES_QUANTITY];
-        for (int i=0; i< NOTES_QUANTITY; i++){
-            myDotArray[i]+=dotProduct(spec, specArrays[i], Recognizer.FOURIER_N/2);
-        }*/
-        /*int a[] = Recognizer.getMaxNums(dotArray);
-        System.out.println("maxes are "+(a[0]+FIRST_NOTE)+" "+(a[1]+FIRST_NOTE)+" "+(a[2]+FIRST_NOTE));
-        int b[] = Recognizer.getMaxNums(myDotArray);
-        System.out.println("huge maxes are "+(b[0]+FIRST_NOTE)+" "+(b[1]+FIRST_NOTE)+" "+(b[2]+FIRST_NOTE));*/
-        //System.out.println("maxes are "+dotArray[a[0]]+" "+dotArray[a[1]]+" "+dotArray[a[2]]);
         return (findMaxNum(dotArray)+FIRST_NOTE);
+    }
+    public int[] dissectNote(double[] spec, double sampleRate,int first, int last){
+        double[] linArray = spectrumToHarmonics(spec, sampleRate);
+        double[] dotArray = new double[last-first+1];
+        for (int i = 0; i <= last-first; i++) {
+            dotArray[i] = dotProduct(linArray, array[i+first-FIRST_NOTE], NOTES_QUANTITY);
+        }
+        int[] array = Recognizer.getMaxNums(dotArray);
+        for (int i=0; i<array.length; i++){
+            array[i]+=first;
+        }
+        return array;
+    }
+    public int[] dissectChord3(double[] spec, double sampleRate, int first, int last, int howmany){
+        double[] linArray = spectrumToHarmonics(spec, sampleRate);
+        double[] dotArray = new double[(last-first+1)*(last-first+1)*(last-first+1)];
+        for (int i = 0; i <= last-first; i++) {
+            for (int j=0; j <= last-first; j++){
+                for (int k=0; k<= last-first; k++){
+                    dotArray[i*(last-first+1)*(last-first+1)+j*(last-first+1)+k] = dotProduct(
+                            linArray, chords3[i+first-FIRST_NOTE][j+first-FIRST_NOTE][k+first-FIRST_NOTE],NOTES_QUANTITY);
+                }
+            }
+        }
+        int[] testArray = Recognizer.getMaxNums(dotArray,howmany);
+        System.out.println("chords3 are ");
+        for (int i=0; i<testArray.length; i++){
+            int a=testArray[i]/((last-first+1)*(last-first+1))+first;
+            int b=(testArray[i]/(last-first+1))%(last-first+1)+first;
+            int c=testArray[i]%(last-first+1)+first;
+            System.out.println(a+" and "+b+" and "+c);
+        }
+        return testArray;
+    }
+    public int[][] dissectChord2(double[] spec, double sampleRate, int first, int last){
+        double[] linArray = spectrumToHarmonics(spec, sampleRate);
+        double[] dotArray = new double[(last-first+1)*(last-first+1)];
+        for (int i = 0; i <= last-first; i++) {
+            for (int j=0; j <= last-first; j++){
+                /*dotArray[i*(last-first+1)+j] = dotProduct(linArray, array[i+first-FIRST_NOTE], NOTES_QUANTITY)+
+                dotProduct(linArray, array[j+first-FIRST_NOTE],NOTES_QUANTITY);*/
+                dotArray[i*(last-first+1)+j] = dotProduct(linArray, chords2[i+first-FIRST_NOTE][j+first-FIRST_NOTE],NOTES_QUANTITY);
+            }
+        }
+        int[] array = Recognizer.getMaxNums(dotArray);
+        int[] testArray = Recognizer.getMaxNums(dotArray,8);
+        System.out.println("chords2 are ");
+        for (int i=0; i<testArray.length; i++){
+            int a=testArray[i]/(last-first+1)+first;
+            int b=testArray[i]%(last-first+1)+first;
+            System.out.println(a+" and "+b);
+        }
+        //System.out.println("chords2 mags are "+dotArray[array[0]]+" and "+dotArray[array[1]]+" and "+dotArray[array[2]]);
+        int[][] array2 = new int[array.length][2];
+        for (int i=0; i<array.length; i++){
+            array2[i][0]=(array[i]/(last-first+1)+first);
+            array2[i][1]=(array[i]%(last-first+1)+first);
+        }
+        return array2;
     }
     private int findMaxNum(double[] a){
         int n=a.length;
@@ -182,7 +275,7 @@ public class Notes implements Serializable{//is also a Singleton
         }
         return m;
     }
-    private double[] spectrumToHarmonics(double[] spec, double sampleRate){
+    public double[] spectrumToHarmonics(double[] spec, double sampleRate){
         //double minFreq = sampleRate/ (double) Recognizer.FOURIER_N;
         double minFreq = sampleRate / Recognizer.FOURIER_N;
         double freq;
@@ -246,6 +339,13 @@ public class Notes implements Serializable{//is also a Singleton
             s+=linearArray[i]*linearArray[i];
         }
         return s;
+    }
+    public int cmpNote(double[] spec,int noteNumber){
+        if (dotProduct(array[noteNumber-FIRST_NOTE],spec,Recognizer.FOURIER_N/2)>(CMP_NOTE/2)*Math.sqrt(getSumSquares(spec))){
+            return 1;
+        }else{
+            return 0;
+        }
     }
     private double getMagn(double f, double[] spec, double minFreq){
         double l = getLeft(f,minFreq);
