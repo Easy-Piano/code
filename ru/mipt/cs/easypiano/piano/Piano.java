@@ -13,6 +13,11 @@ public class Piano extends JPanel {
 
     protected List<PianoKey> pianoKeys;
 	private Pedal pedal;
+
+    public List<Control> getControlList() {
+        return controlList;
+    }
+
     protected List<Control> controlList;
     //public KeyAdapter adapter;
 

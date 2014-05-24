@@ -3,6 +3,7 @@ package ru.mipt.cs.easypiano.main;
 //Dima
 
 import ru.mipt.cs.easypiano.piano.*;
+import ru.mipt.cs.easypiano.recognition.aggregation.fromcpp.Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,4 +58,15 @@ public class ExerciseFrame extends JFrame {
 		pack();
 		setVisible(true);
 	}
+    public ExerciseFrame(String nameOfFile, int n){
+        super("Easy Piano");
+        this.nameOfFile = nameOfFile;
+        add(createContentPanel());
+        setLocationByPlatform(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        pack();
+        setVisible(true);
+       Client client = new Client(piano.getControlList().get(2));
+    }
 }

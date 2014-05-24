@@ -14,7 +14,8 @@ public class ClientControl extends Control {
 
     @Override
     public int getNote(int keyCode) {
-        return this.keyboardControl.getNote(keyCode);
+        //return this.keyboardControl.getNote(keyCode);
+        return keyCode;
     }
 
     @Override

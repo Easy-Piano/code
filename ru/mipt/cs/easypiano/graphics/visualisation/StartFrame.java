@@ -42,7 +42,7 @@ public class StartFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if (nameOfFile != null){
                     if (typeOfFile.equals("mid")){
-                        ExerciseFrame videoFrame = new ExerciseFrame(nameOfFile);
+                        ExerciseFrame videoFrame = new ExerciseFrame(nameOfFile, 0);
                         videoFrame.setVisible(true);
                     }
                     else{
