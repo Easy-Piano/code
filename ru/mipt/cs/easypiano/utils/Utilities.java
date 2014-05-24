@@ -29,8 +29,8 @@ public class Utilities {
 	//Returns the resource URL. It is said that by using URL, a resource
 	//can be read in Java program of any form: application, applet, JAR, etc.
 	public static URL getResourceURL(String fileName) {
-		Utilities.showMessage("fileName filtered = " + "/" + fileName.replace('\\', '/'));
-		Utilities.showMessage("URL on Utilities = " + Utilities.class.getResource("/" + fileName.replace('\\', '/')));
+		//Utilities.showMessage("fileName filtered = " + "/" + fileName.replace('\\', '/'));
+		//Utilities.showMessage("URL on Utilities = " + Utilities.class.getResource("/" + fileName.replace('\\', '/')));
 		return Utilities.class.getResource("/" + fileName.replace('\\', '/'));
 	}
 }
