@@ -67,6 +67,10 @@ public class ExerciseFrame extends JFrame {
         setResizable(false);
         pack();
         setVisible(true);
-       Client client = new Client(piano.getControlList().get(2));
+        (new Thread(){
+            public void run(){
+                Client client = new Client(piano.getControlList().get(2));
+            }
+        }).start();
     }
 }

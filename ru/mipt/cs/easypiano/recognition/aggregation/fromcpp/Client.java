@@ -73,7 +73,7 @@ public class Client {
             //System.out.println("got = "+got);
             switch(got){
                 case 3:
-                    int noteNum=((int) buf[0])+12;
+                    int noteNum=((int) buf[0])-36;
                     int onOrOff=(int) buf[1];
                     int instrumentNum = (int) buf[2];
                     sendSignal(noteNum,onOrOff,instrumentNum);
