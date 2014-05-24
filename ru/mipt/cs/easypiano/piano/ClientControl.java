@@ -43,7 +43,7 @@ public class ClientControl extends Control {
 
         public void run(){
             try {
-                wait(1000);
+                Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
