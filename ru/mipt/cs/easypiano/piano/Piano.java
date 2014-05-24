@@ -5,6 +5,7 @@ package ru.mipt.cs.easypiano.piano;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,8 +101,16 @@ public class Piano extends JPanel {
 		super.paintComponent(g);
 
         // paint key frames
+        /*for (int i = 0; i < Constants.NUM_KEYS; i++) {
+            if(!pianoKeys.get(i).getColor()) g.drawImage(resizeImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),Constants.WHITE_KEY_WIDTH, Constants.WHITE_KEY_HEIGHT),
+                    pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
+
+            if(pianoKeys.get(i).getColor()) g.drawImage(resizeImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),Constants.BLACK_KEY_WIDTH, Constants.BLACK_KEY_HEIGHT),
+                    pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
+        }*/
+
         for (int i = 0; i < Constants.NUM_KEYS; i++) {
-            g.drawImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),
+        g.drawImage(pianoKeys.get(i).getImage(pianoKeys.get(i).getType()),
                     pianoKeys.get(i).getKeyPos().x, pianoKeys.get(i).getKeyPos().y, null);
         }
 
@@ -152,4 +161,14 @@ public class Piano extends JPanel {
 			repaint();
 		}
 	}
+
+    private BufferedImage resizeImage(final Image image, int width, int height) {
+        final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        final Graphics2D graphics2D = bufferedImage.createGraphics();
+        graphics2D.setComposite(AlphaComposite.Src);
+        graphics2D.drawImage(image, 0, 0, width, height, null);
+        graphics2D.dispose();
+
+        return bufferedImage;
+    }
 }

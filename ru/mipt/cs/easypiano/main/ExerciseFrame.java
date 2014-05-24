@@ -23,8 +23,10 @@ public class ExerciseFrame extends JFrame {
         this.piano = new Piano();
         Control mouseControl = new MouseControl(piano);
         Control keyboardControl = new KeyboardControl(piano);
+        Control clientControl = new ClientControl(piano, (KeyboardControl)keyboardControl);
         piano.addControl(mouseControl);
         piano.addControl(keyboardControl);
+        piano.addControl(clientControl);
         format.gridx = 0;
         format.gridy = 1;
         contentPanel.add(piano, format);

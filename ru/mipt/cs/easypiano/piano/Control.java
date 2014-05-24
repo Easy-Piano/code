@@ -3,7 +3,7 @@ package ru.mipt.cs.easypiano.piano;
 //Dima
 
 public abstract class Control {
-    protected Piano piano;
+    private Piano piano;
 
     public abstract int getNote(int keyCode);
 

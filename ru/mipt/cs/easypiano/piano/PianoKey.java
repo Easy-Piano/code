@@ -137,9 +137,9 @@ public class PianoKey {
 	}
 
 	private void fireNeedsRedraw() {
-		for (PianoKeyListener listener: listeners)
-			listener.pianoKeyNeedsRedraw(this);
-	}
+        for (PianoKeyListener listener: listeners)
+            listener.pianoKeyNeedsRedraw(this);
+    }
 
     public int getType() {
         return type;

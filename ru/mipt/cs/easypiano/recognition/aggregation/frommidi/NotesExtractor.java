@@ -58,10 +58,10 @@ public class NotesExtractor {
             /*int n1=vecDurations.size();
             int n2=vecStartTimes.size();
             System.out.println("note size is "+n+" duration size is "+n1+" startTime size is "+n2);*/
-        for (int i=0; i<n; i++){
+        /*for (int i=0; i<n; i++){
             System.out.println("note: "+vecNotes.get(i)+" duration: "+vecDurations.get(i)+" startTime: "+
                     vecStartTimes.get(i));
-        }
+        }*/
     }
     public Vector getNotes(){
         return vecNotes;
